@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sensores.css')}}">
+
+  </head>
+  <body>
+
+  <div class="sidenav">
+    <a href="{{url_for('dashboard')}}">Dashboard </a>
+    <a href="{{url_for('sensores')}}">Sensores</a>
+    <a href="{{url_for('reles')}}">Reles </a>
+    <a href="{{url_for('logout')}}"> Logout</a>
+    
+  </div>
+
+  <div class="main">
+    
+    <div class ="sensores">
+      <div class="sensor">
+        <h2 class="nome_sensor">Sensor Aquario </h2>
+        <p class="status_sensor">{{status}}</p>
+        <h1 class="status">{{aquario}}</h1>
+      </div>
+      <div class="sensor">
+        <h2 class="nome_sensor">Sensor Terrario </h2>
+        <p class="status_sensor">{{status}}</p>
+        <h1 class="status">{{terrario}}</h1>
+      
+      </div>
+      <div class="sensor">
+        <h2 class="nome_sensor">Humidade Terrario </h2>
+        <p class="status_sensor">{{status}}</p>
+        <h1 class="status">{{humidade}}</h1>
+    </div>  
+  </div>
+    
+  </body>
+</html> 
+

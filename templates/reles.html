@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reles.css')}}">
+
+  </head>
+  <body>
+
+    <div class="sidenav">
+      <a href="{{url_for('dashboard')}}">Dashboard </a>
+      <a href="{{url_for('sensores')}}">Sensores</a>
+      <a href="{{url_for('reles')}}">Reles </a>
+      <a href="{{url_for('logout')}}"> Logout</a>
+      
+    </div>
+    <main class ="main">
+      <div class ="reles">
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+                <button  type="submit">Ligar/Desligar</button>
+          </form>
+          
+        </div>
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+              <button  type="submit">Ligar/Desligar</button>
+            </form>
+        </div>
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        
+        </div>
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>  
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>  
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p  class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+        <div class="rele">
+          <h2 class="nome_rele">Nome do Rele </h2>
+          <p class="status_rele">{{status}}</p>
+          <p class="status">{{rele1}}</p>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+      
+          
+        </div>  
+      </div>
+
+    </main>
+
+      
+  </body>
+</html> 
+
+
