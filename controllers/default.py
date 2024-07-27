@@ -150,25 +150,32 @@ def alternar_reles():
 def sensores():
     
     
-
     
-    user = current_user.name
     try:
-
+    
+        user = current_user.name
         data_sensores = Device.query.filter_by(user = user).first()
+        data_log = Device_log.query.filter_by(id = current_user.id).first()
+        aquario_max=data_log.temp_aqua_max
+        aquario_min = data_log.temp_aqua_min
+        terrario_max=data_log.temp_ter_max
+        terrario_min=data_log.temp_ter_min
+        hum_max=data_log.hum_max
+        hum_min=data_log.hum_min
+        
         aquario = data_sensores.temp_aquario
         terrario = data_sensores.temp_terrario
         humidade = data_sensores.humidade_terrario
         status = "Online"
         
-
+        return render_template('sensores.html',aquario = aquario, terrario = terrario , humidade = humidade,status = status, hum_min = hum_min,  hum_max =  hum_max , aquario_max = aquario_max, aquario_min = aquario_min, terrario_max = terrario_max, terrario_min = terrario_min)
 
 
     except:
         status ="Offline"
 
 
-    return render_template('sensores.html',aquario = aquario, terrario = terrario , humidade = humidade,status = status)
+        return render_template('sensores.html',status = status)
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):
