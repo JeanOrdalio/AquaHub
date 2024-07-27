@@ -43,12 +43,12 @@ class Keys(db.Model):
 class Device(db.Model):
 
     __tablename__= 'device'
-    id = db.Column(db.Integer,autoincrement = True, primary_key = True,unique = True)
+    id = db.Column(db.Integer,autoincrement = True, primary_key = True,unique = True,)
     user = db.Column(db.String,unique = True)
     rele1 = db.Column(db.String)
-    temp_aquario = db.Column(db.String)
-    temp_terrario = db.Column(db.String)
-    humidade_terrario = db.Column(db.String)
+    temp_aquario = db.Column(db.Integer)
+    temp_terrario = db.Column(db.Integer)
+    humidade_terrario = db.Column(db.Integer)
 
 
     def __init__(self,user,rele1,temp):
@@ -58,9 +58,23 @@ class Device(db.Model):
 
         
 
+class Device_log(db.Model):
+    __tablename__= 'device_log'
+    id = db.Column(db.Integer,autoincrement = True, primary_key = True,unique = True)
+    temp_aqua_max = db.Column(db.Integer,unique = True)
+    temp_aqua_min = db.Column(db.Integer)
+    temp_ter_max= db.Column(db.Integer)
+    temp_ter_min = db.Column(db.Integer)
+    hum_max = db.Column(db.Integer)
+    hum_min = db.Column(db.Integer)
 
+    def __init__(self,temp_aqua_max, temp_aqua_min,temp_ter_max,temp_ter_min,hum_max, hum_min ):
+        self.temp_aqua_max = temp_aqua_max
+        self.temp_aqua_min = temp_aqua_min
+        self.temp_ter_max = temp_ter_max
+        self.temp_ter_min = temp_ter_min
+        self.hum_max = hum_max
+        self.hum_min = hum_min
 
-
-        
        
 

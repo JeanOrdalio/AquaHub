@@ -5,6 +5,7 @@ from flask_mqtt import Mqtt
 from flask_caching import Cache
 
 
+
 app = Flask(__name__, static_url_path='/static')
 app.app_context().push() 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
@@ -33,4 +34,7 @@ mqtt_client.subscribe('jean/sensores/humidade_terrario')
 
 
 
+
 from controllers import default
+
+

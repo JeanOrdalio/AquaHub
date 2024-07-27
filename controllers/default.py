@@ -1,8 +1,9 @@
 from __init__ import app
 from flask import render_template,request,redirect,url_for
-from models.models import User,Device,Keys
+from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
+import time
 
 
 
@@ -171,6 +172,7 @@ def sensores():
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):
+
  
     payload=message.payload.decode()
     topic=message.topic
@@ -209,23 +211,60 @@ def receber_mqtt_menssager(client, userdata, message):
                 db.session.commit()  
 
         if topic == topic_aquario:
-
+            payload = float(payload)
+            
             data_sensor = Device.query.filter_by(user= user ).first()
-            data_sensor.temp = payload
-            db.session.commit()      
+            data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
+            if payload >= data_log.temp_aqua_max:
+                data_log.temp_aqua_max = payload
+                data_sensor.temp_aquario = payload
+               
+                db.session.commit()
+            if payload <= data_log.temp_aqua_min:
+                data_log.temp_aqua_min = payload
+                data_sensor.temp_aquario = payload
+                db.session.commit()
+
 
         if topic ==  topic_terrario :
+            payload = float(payload)
             data_sensor = Device.query.filter_by(user= user ).first() 
-            data_sensor.temp_terrario = payload
-            db.session.commit()
+            data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
+            
+            if payload >= data_log.temp_ter_max:
+                data_log.temp_ter_max = payload
+                data_sensor.temp_terrario = payload
+                db.session.commit()
+            if payload <= data_log.temp_ter_min:
+                data_log.temp_ter_min = payload
+                data_sensor.temp_terrario = payload
+                db.session.commit()
         
         if topic ==  topic_humidade_terrario :
-            data_sensor = Device.query.filter_by(user= user ).first() 
-            data_sensor.humidade_terrario = payload
-            db.session.commit()
+            payload = float(payload)
+            data_sensor = Device.query.filter_by(user= user ).first()
+            data_log = Device_log.query.filter_by(id = data_sensor.id).first()
+            if payload >= data_log.hum_max:
+                data_log.hum_max = payload
+                data_sensor.humidade_terrario = payload
+                db.session.commit()
+            if payload <= data_log.hum_min:
+                data_log.hum_min = payload
+                data_sensor.humidade_terrario = payload
+                db.session.commit()
+
 
                 
-        
+def atualizando_banco():
+    while True:
+        time.sleep(10)
+        print(1)
+        mqtt_client.publish('jean/sensores', 'aquario')
+        time.sleep(10)
+        mqtt_client.publish('jean/sensores', 'terrario')
+        time.sleep(10)
+        mqtt_client.publish('jean/sensores', 'humidade')
+
    
    
     
