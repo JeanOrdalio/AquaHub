@@ -46,15 +46,21 @@ class Device(db.Model):
     id = db.Column(db.Integer,autoincrement = True, primary_key = True,unique = True,)
     user = db.Column(db.String,unique = True)
     rele1 = db.Column(db.String)
-    temp_aquario = db.Column(db.Integer)
-    temp_terrario = db.Column(db.Integer)
-    humidade_terrario = db.Column(db.Integer)
+    sensortemp01 = db.Column(db.Integer)
+    sensortemp02 = db.Column(db.Integer)
+    sensorhum = db.Column(db.String)
+    name_sensor_temp01 = db.Column(db.String)
+    name_sensor_temp02 =db.Column(db.String)
+    name_sensor_hum = db.Column(db.String)
 
 
-    def __init__(self,user,rele1,temp):
+    def __init__(self,user,rele1,temp,name_sensor_temp01, name_sensor_temp02,name_sensor_hum):
         self.user = user
         self.rele1 = rele1
         self.temp = temp
+        self.name_sensor_hum = name_sensor_hum
+        self.name_sensor_temp01 = name_sensor_temp01
+        self.name_sensor_temp02 = name_sensor_temp02
 
         
 

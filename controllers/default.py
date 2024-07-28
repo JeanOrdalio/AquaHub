@@ -3,7 +3,6 @@ from flask import render_template,request,redirect,url_for
 from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
-import time
 
 
 
@@ -84,13 +83,16 @@ def dashboard():
         user = current_user.name
         device = Device.query.filter_by(user = user ).first()
         rele1 = device.rele1
+        sensor01 = device.sensortemp01
+        sensor02= device.sensortemp02
+        sensorhum= device.sensorhum
         if  rele1 == "0":
             rele1 = "Desligado"
             status = "Online"
         if rele1 =="1":
             rele1 = "Ligado"
             status = "Online"
-        return render_template('dashboard.html',rele1 = rele1,status = status)
+        return render_template('dashboard.html',rele1 = rele1,status = status, sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum)
 
     except:
         status ="Offline"
@@ -121,6 +123,18 @@ def reles():
         rele1 = "Offline"
 
     return render_template('reles.html',rele1 = rele1,status = status)
+
+
+
+@app.route('/configs',methods= ['GET','POST'])
+@login_required
+def configs():
+    return render_template('configs.html')
+
+
+
+
+
 
 @app.route('/executor_rele1', methods=['POST'])
 @login_required
@@ -156,19 +170,19 @@ def sensores():
         user = current_user.name
         data_sensores = Device.query.filter_by(user = user).first()
         data_log = Device_log.query.filter_by(id = current_user.id).first()
-        aquario_max=data_log.temp_aqua_max
-        aquario_min = data_log.temp_aqua_min
-        terrario_max=data_log.temp_ter_max
-        terrario_min=data_log.temp_ter_min
+        sensor01_max=data_log.temp_aqua_max
+        sensor01_min = data_log.temp_aqua_min
+        sensor02_max=data_log.temp_ter_max
+        sensor02_min=data_log.temp_ter_min
         hum_max=data_log.hum_max
         hum_min=data_log.hum_min
         
-        aquario = data_sensores.temp_aquario
-        terrario = data_sensores.temp_terrario
-        humidade = data_sensores.humidade_terrario
+        sensor01 = data_sensores.sensortemp01
+        sensor02 = data_sensores.sensortemp02
+        sensorhum = data_sensores.sensorhum
         status = "Online"
         
-        return render_template('sensores.html',aquario = aquario, terrario = terrario , humidade = humidade,status = status, hum_min = hum_min,  hum_max =  hum_max , aquario_max = aquario_max, aquario_min = aquario_min, terrario_max = terrario_max, terrario_min = terrario_min)
+        return render_template('sensores.html',sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum,status = status, hum_min = hum_min,  hum_max =  hum_max , sensor01_max = sensor01_max, sensor01_min = sensor01_min, sensor02_max = sensor02_max, sensor02_min= sensor02_min)
 
 
     except:
@@ -199,9 +213,9 @@ def receber_mqtt_menssager(client, userdata, message):
 
             
         topic2 = (f'{user}/reles')
-        topic_aquario = (f'{user}/sensores/aquario')
-        topic_terrario =(f'{user}/sensores/terrario')
-        topic_humidade_terrario =(f'{user}/sensores/humidade_terrario')
+        topic_sensor01 = (f'{user}/sensores/aquario')
+        topic_sensor02 =(f'{user}/sensores/terrario')
+        topic_sensorhum =(f'{user}/sensores/hum_terrario')
 
         if topic == topic2:
             if payload == "off":
@@ -217,26 +231,30 @@ def receber_mqtt_menssager(client, userdata, message):
                 print("on")
                 db.session.commit()  
 
-        if topic == topic_aquario:
+        if topic == topic_sensor01:
             payload = float(payload)
             
             data_sensor = Device.query.filter_by(user= user ).first()
             data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
+            data_sensor.sensortemp01 = payload
+            db.session.commit()
             if payload >= data_log.temp_aqua_max:
                 data_log.temp_aqua_max = payload
-                data_sensor.temp_aquario = payload
+                data_sensor.temp_sensor01 = payload
                
                 db.session.commit()
             if payload <= data_log.temp_aqua_min:
                 data_log.temp_aqua_min = payload
-                data_sensor.temp_aquario = payload
+                data_sensor.temp_sensor01 = payload
                 db.session.commit()
 
 
-        if topic ==  topic_terrario :
+        if topic ==  topic_sensor02 :
             payload = float(payload)
             data_sensor = Device.query.filter_by(user= user ).first() 
             data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
+            data_sensor.sensortemp02 = payload
+            db.session.commit()
             
             if payload >= data_log.temp_ter_max:
                 data_log.temp_ter_max = payload
@@ -247,31 +265,21 @@ def receber_mqtt_menssager(client, userdata, message):
                 data_sensor.temp_terrario = payload
                 db.session.commit()
         
-        if topic ==  topic_humidade_terrario :
+        if topic ==  topic_sensorhum:
             payload = float(payload)
             data_sensor = Device.query.filter_by(user= user ).first()
             data_log = Device_log.query.filter_by(id = data_sensor.id).first()
+            data_sensor.sensorhum = payload
+            db.session.commit()
             if payload >= data_log.hum_max:
                 data_log.hum_max = payload
-                data_sensor.humidade_terrario = payload
+                data_sensor.sensorhum= payload
                 db.session.commit()
             if payload <= data_log.hum_min:
                 data_log.hum_min = payload
-                data_sensor.humidade_terrario = payload
+                data_sensor.sensorhum = payload
                 db.session.commit()
 
 
-                
-def atualizando_banco():
-    while True:
-        time.sleep(10)
-        print(1)
-        mqtt_client.publish('jean/sensores', 'aquario')
-        time.sleep(10)
-        mqtt_client.publish('jean/sensores', 'terrario')
-        time.sleep(10)
-        mqtt_client.publish('jean/sensores', 'humidade')
 
-   
-   
     

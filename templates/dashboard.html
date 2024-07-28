@@ -10,11 +10,15 @@
 <div class="sidenav">
   <a href="{{url_for('dashboard')}}">Dashboard </a>
   <a href="{{url_for('sensores')}}">Sensores</a>
-  <a href="{{url_for('reles')}}">Reles </a>
-  <a href="{{url_for('logout')}}"> Logout</a>
+  <a href="{{url_for('reles')}}">Tomadas </a>
+  <a href="{{url_for('configs')}}">Configuraçoes </a>
+  <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
   
 </div>
 <main class ="main">
+  <div>
+    <p>Tempo Local</p>
+  </div>
   <div class ="reles">
     <div class="rele">
       <h2 class="nome_rele">Nome do Rele </h2>
@@ -61,6 +65,26 @@
        
     </div>  
   </div>
+  <div class ="sensores">
+    <div class="sensor">
+      <h2 class="nome_rele">Nome do Sensor </h2>
+      <p class="status_rele">{{status}}</p>
+       <p class="status">{{sensor01}}ºC</p>
+    </div>
+    <div class="sensor">
+      <h2 class="nome_rele">Nome do Sensor </h2>
+      <p class="status_rele">{{status}}</p>
+      <p class="status">{{sensor02}}ºC</p>
+    </div>
+    <div class="sensor">
+      <h2 class="nome_rele">Nome do sensor </h2>
+      <p class="status_rele">{{status}}</p>
+      <p class="status">{{sensorhum}}Cº</p>
+    </div>
+    </div>
+  </div>
+
+  
 
 </main>
 

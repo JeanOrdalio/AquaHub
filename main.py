@@ -1,5 +1,5 @@
 from __init__ import app 
-from controllers.default import atualizando_banco
+
 
 
 

@@ -59,18 +59,20 @@ body {
 
 }
 
-.status{
-  margin-top: 70px;
-}
+
 
 .logs_text{
-  margin: 0px  40px  0 40px;
+  margin: 20px  20px  0 20px;
   display: flex;
-  column-gap: 60%;
+  column-gap: 35%;
 }
 
 .logs{
   display: flex;
-  margin: 0px  50px  0 60px;
-  column-gap: 75%;
+  margin: 0px  20px  0 20px;
+  column-gap: 37%;
+ 
 }
+
+
+
