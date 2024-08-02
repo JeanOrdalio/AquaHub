@@ -1,6 +1,8 @@
 
 from flask_login import UserMixin
 from __init__ import db,login_manager
+from requests import get
+import pandas as pd
 
 
 
@@ -21,6 +23,7 @@ class User(db.Model,UserMixin):
     id = db.Column(db.Integer,autoincrement = True,primary_key = True, unique = True)
     name = db.Column(db.String)
     email = db.Column(db.String, unique = True)
+    cep = db.Column(db.Integer)
     password = db.Column(db.String)
     dispositivo = db.Column(db.String,unique = True)
  
@@ -83,4 +86,3 @@ class Device_log(db.Model):
         self.hum_min = hum_min
 
        
-

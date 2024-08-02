@@ -48,18 +48,19 @@ body {
   font-weight:bold;
   font-size: small;
   text-align: center;
+  transition: 5s;
  
 
 }
 .sensor{
   background-color: #ffffffee;
-  height: 350px;
+  height: 450px;
   width:  450px;
   border-radius: 20px;
+ 
 
 }
-
-
+ 
 
 .logs_text{
   margin: 20px  20px  0 20px;
@@ -73,6 +74,3 @@ body {
   column-gap: 37%;
  
 }
-
-
-

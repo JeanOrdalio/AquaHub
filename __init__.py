@@ -31,7 +31,7 @@ mqtt_client.subscribe('jean/sensores/humidade_terrario')
 
 
 
-
+### Token Home Assistant eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmOGYwMzQ2YjAwYTc0Yjk4OTE3Nzk3NWE0ODVlYjk3YSIsImlhdCI6MTcyMjM1MTkwNiwiZXhwIjoyMDM3NzExOTA2fQ.xk0IJe0aSD4w_ulQwJJBSxKAph8R925xyMx3-j7UZSM  
 
 from controllers import default
 

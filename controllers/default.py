@@ -3,6 +3,9 @@ from flask import render_template,request,redirect,url_for
 from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
+from requests import get
+import pandas as pd
+from controllers.controllers import Sensor,Sensor_Get
 
 
 
@@ -49,6 +52,7 @@ def registrar():
 
         name = request.form['name']
         email = request.form['email']
+        cep = request.form['cep']
         password = request.form['password']
         key = request.form['device']
         key_verify = Keys.query.filter_by( key = key ).first()
@@ -57,7 +61,7 @@ def registrar():
         temp = "0"
         if key == acess:
         
-            user = User(name,email,password,key)
+            user = User(name,email,cep,password,key)
             device = Device(name,rele1,temp)
             
             db.session.add(user)
@@ -74,12 +78,14 @@ def registrar():
 @app.route('/logout')
 def logout():
     logout_user()
+    print("saindo")
     return redirect(url_for('login'))
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
     try:
+        
         user = current_user.name
         device = Device.query.filter_by(user = user ).first()
         rele1 = device.rele1
@@ -129,10 +135,36 @@ def reles():
 @app.route('/configs',methods= ['GET','POST'])
 @login_required
 def configs():
-    return render_template('configs.html')
+    url = "http://192.168.2.156:8123/api/history/period?filter_entity_id=sensor.sensor_ds18b20_temperature"
+    headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmOGYwMzQ2YjAwYTc0Yjk4OTE3Nzk3NWE0ODVlYjk3YSIsImlhdCI6MTcyMjM1MTkwNiwiZXhwIjoyMDM3NzExOTA2fQ.xk0IJe0aSD4w_ulQwJJBSxKAph8R925xyMx3-j7UZSM",
+        "content-type": "application/json",
+    }
 
+    response = get(url, headers=headers)
+    data = response.json()
+    if data:
+        sensor_data = data[0]
+    
+    df= pd.DataFrame(sensor_data)[['last_updated','state']]
 
+    df['last_updated']= pd.to_datetime(df['last_updated'],format='mixed')
+    df.set_index('last_updated', inplace=True)
+    df = df.resample('2min').first().dropna().reset_index()
 
+    df['last_updated'] = df['last_updated'].dt.tz_convert('America/Sao_Paulo')
+    df['Data'] = df['last_updated'].dt.strftime(('%Y-%m-%d'))
+    df['Hora'] = df['last_updated'].dt.strftime(('%H:%M:%S'))
+    df['Estado'] = df['state']
+    df = df = df[df['state'] != 'unavailable'] 
+    df = df = df[df['state'] != 'unknown']
+
+    df = df[['Data','Hora','Estado']]
+    df=df['Estado'].astype(float)
+
+    dash = df.plot(y='Estado',kind='bar')
+   
+    return render_template('configs.html',dash = dash)
 
 
 
@@ -158,38 +190,44 @@ def alternar_reles():
         return redirect(url_for('reles'))
 
     
-
 @login_required
 @app.route('/sensores',methods= ['GET','POST'])
 def sensores():
     
+
+    sensor1_inf = Sensor_Get.sensor_get(Sensor.sensor1)
+    sensor2_inf = Sensor_Get.sensor_get(Sensor.sensor2)
+    sensorhum_inf = Sensor_Get.sensor_get(Sensor.sensorhum)
+
+  
+  
+    sensor1_max = sensor1_inf['Estado'].max()
+    sensor1_min = sensor1_inf['Estado'].min()
     
     
-    try:
+    sensor2_max = sensor2_inf['Estado'].max()
+    sensor2_min = sensor2_inf['Estado'].min()
     
-        user = current_user.name
-        data_sensores = Device.query.filter_by(user = user).first()
-        data_log = Device_log.query.filter_by(id = current_user.id).first()
-        sensor01_max=data_log.temp_aqua_max
-        sensor01_min = data_log.temp_aqua_min
-        sensor02_max=data_log.temp_ter_max
-        sensor02_min=data_log.temp_ter_min
-        hum_max=data_log.hum_max
-        hum_min=data_log.hum_min
+    
+    hum_max = sensorhum_inf['Estado'].max()
+    hum_min = sensorhum_inf['Estado'].min()
+    
+    data = Device.query.filter_by(id = current_user.id).first()
+    sensor1 = data.sensortemp01
+    sensor2 = data.sensortemp02
+    sensorhum = data.sensorhum
+    
+    return render_template('sensores.html',sensor1 = sensor1,sensor2 = sensor2, sensorhum = sensorhum,sensor1_max = sensor1_max,sensor1_min = sensor1_min, sensor2_max = sensor2_max, sensor2_min = sensor2_min, hum_min = hum_min ,hum_max = hum_max)
+
+    
+
+
+   
+
         
-        sensor01 = data_sensores.sensortemp01
-        sensor02 = data_sensores.sensortemp02
-        sensorhum = data_sensores.sensorhum
-        status = "Online"
-        
-        return render_template('sensores.html',sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum,status = status, hum_min = hum_min,  hum_max =  hum_max , sensor01_max = sensor01_max, sensor01_min = sensor01_min, sensor02_max = sensor02_max, sensor02_min= sensor02_min)
+  
 
 
-    except:
-        status ="Offline"
-
-
-        return render_template('sensores.html',status = status)
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):
@@ -215,7 +253,7 @@ def receber_mqtt_menssager(client, userdata, message):
         topic2 = (f'{user}/reles')
         topic_sensor01 = (f'{user}/sensores/aquario')
         topic_sensor02 =(f'{user}/sensores/terrario')
-        topic_sensorhum =(f'{user}/sensores/hum_terrario')
+        topic_sensorhum =(f'{user}/sensores/humidade_terrario')
 
         if topic == topic2:
             if payload == "off":
