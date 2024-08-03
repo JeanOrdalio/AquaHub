@@ -11,7 +11,7 @@ app.app_context().push()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 db = SQLAlchemy(app)
 app.secret_key = 'webmaster'
-app.config['MQTT_BROKER_URL'] = '192.168.2.156'
+app.config['MQTT_BROKER_URL'] = '192.168.2.203'
 app.config['MQTT_BROKER_PORT'] = 1883
 app.config['MQTT_USERNAME'] = 'home' 
 app.config['MQTT_PASSWORD'] = 'webmaster'  

@@ -3,9 +3,8 @@ from flask import render_template,request,redirect,url_for
 from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
-from requests import get
-import pandas as pd
 from controllers.controllers import Sensor,Sensor_Get
+
 
 
 
@@ -88,6 +87,13 @@ def dashboard():
         
         user = current_user.name
         device = Device.query.filter_by(user = user ).first()
+        name_rele1 = device.name_rele1
+        name_rele2 = device.name_rele2
+        name_rele3 = device.name_rele3
+        name_rele4 = device.name_rele4
+        name_sensor_temp1 = device.name_sensor_temp01
+        name_sensor_temp2 = device.name_sensor_temp02
+        name_sensor_hum = device.name_sensor_hum
         rele1 = device.rele1
         sensor01 = device.sensortemp01
         sensor02= device.sensortemp02
@@ -98,20 +104,24 @@ def dashboard():
         if rele1 =="1":
             rele1 = "Ligado"
             status = "Online"
-        return render_template('dashboard.html',rele1 = rele1,status = status, sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum)
+        return render_template('dashboard.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2,rele1 = rele1,status = status, sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum)
 
     except:
         status ="Offline"
-        return render_template('dashboard.html',rele1 = rele1,status = status)
+        return render_template('dashboard.html',status = status)
 
     
-
 @app.route('/reles',methods= ['GET','POST'])
 @login_required
 def reles():
     
     
     try:
+        device = Device.query.filter_by(user = current_user.name ).first()
+        name_rele1 = device.name_rele1
+        name_rele2 = device.name_rele2
+        name_rele3 = device.name_rele3
+        name_rele4 = device.name_rele4
         if request.method == 'POST' and request.form.rele123:
             print("kabum")
         data_rele = Device.query.filter_by(user = current_user.name ).first()
@@ -119,11 +129,11 @@ def reles():
         if data_rele.rele1 == "0":
             rele1 = "Desligado"
             status = "Online"
-            return render_template('reles.html',rele1 = rele1,status = status)
+            return render_template('reles.html',rele1 = rele1,status = status,name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)
         if data_rele.rele1 == "1":
             rele1 = "Ligado"
             status = "Online"
-            return render_template('reles.html',rele1 = rele1,status = status)  
+            return render_template('reles.html',rele1 = rele1,status = status,name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)  
     except: 
         status = "Offline" 
         rele1 = "Offline"
@@ -135,61 +145,32 @@ def reles():
 @app.route('/configs',methods= ['GET','POST'])
 @login_required
 def configs():
-    url = "http://192.168.2.156:8123/api/history/period?filter_entity_id=sensor.sensor_ds18b20_temperature"
-    headers = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmOGYwMzQ2YjAwYTc0Yjk4OTE3Nzk3NWE0ODVlYjk3YSIsImlhdCI6MTcyMjM1MTkwNiwiZXhwIjoyMDM3NzExOTA2fQ.xk0IJe0aSD4w_ulQwJJBSxKAph8R925xyMx3-j7UZSM",
-        "content-type": "application/json",
-    }
-
-    response = get(url, headers=headers)
-    data = response.json()
-    if data:
-        sensor_data = data[0]
-    
-    df= pd.DataFrame(sensor_data)[['last_updated','state']]
-
-    df['last_updated']= pd.to_datetime(df['last_updated'],format='mixed')
-    df.set_index('last_updated', inplace=True)
-    df = df.resample('2min').first().dropna().reset_index()
-
-    df['last_updated'] = df['last_updated'].dt.tz_convert('America/Sao_Paulo')
-    df['Data'] = df['last_updated'].dt.strftime(('%Y-%m-%d'))
-    df['Hora'] = df['last_updated'].dt.strftime(('%H:%M:%S'))
-    df['Estado'] = df['state']
-    df = df = df[df['state'] != 'unavailable'] 
-    df = df = df[df['state'] != 'unknown']
-
-    df = df[['Data','Hora','Estado']]
-    df=df['Estado'].astype(float)
-
-    dash = df.plot(y='Estado',kind='bar')
-   
-    return render_template('configs.html',dash = dash)
-
-
-
-@app.route('/executor_rele1', methods=['POST'])
-@login_required
-def executor():
-    resultado = alternar_reles()
-
-    return resultado
-
-def alternar_reles():
-    
     user = current_user.name
-    data_rele = Device.query.filter_by(user = user ).first()
-    
-    if data_rele.rele1 == "1":
-        data_rele.rele1 = "0"
-        db.session.commit()
-        return redirect(url_for('reles'))
-    if data_rele.rele1 == "0":
-        data_rele.rele1 = "1"
-        db.session.commit()
-        return redirect(url_for('reles'))
+    device = Device.query.filter_by(user = user ).first()
+    name_rele1 = device.name_rele1
+    name_rele2 = device.name_rele2
+    name_rele3 = device.name_rele3
+    name_rele4 = device.name_rele4
+    name_sensor_temp1 = device.name_sensor_temp01
+    name_sensor_temp2 = device.name_sensor_temp02
+    name_sensor_hum = device.name_sensor_hum
+   
+ 
 
-    
+
+   
+
+    return render_template('configs.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2)
+        
+
+
+   
+   
+    return render_template('configs.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2)
+
+
+
+
 @login_required
 @app.route('/sensores',methods= ['GET','POST'])
 def sensores():
@@ -212,22 +193,20 @@ def sensores():
     hum_max = sensorhum_inf['Estado'].max()
     hum_min = sensorhum_inf['Estado'].min()
     
+
+    print(sensor1_inf)
+
     data = Device.query.filter_by(id = current_user.id).first()
     sensor1 = data.sensortemp01
     sensor2 = data.sensortemp02
     sensorhum = data.sensorhum
+    name_sensor_temp1 = data.name_sensor_temp01
+    name_sensor_temp2 = data.name_sensor_temp02
+    name_sensor_hum = data.name_sensor_hum
     
-    return render_template('sensores.html',sensor1 = sensor1,sensor2 = sensor2, sensorhum = sensorhum,sensor1_max = sensor1_max,sensor1_min = sensor1_min, sensor2_max = sensor2_max, sensor2_min = sensor2_min, hum_min = hum_min ,hum_max = hum_max)
+    return render_template('sensores.html',sensor1 = sensor1,sensor2 = sensor2, sensorhum = sensorhum,sensor1_max = sensor1_max,sensor1_min = sensor1_min, sensor2_max = sensor2_max, sensor2_min = sensor2_min, hum_min = hum_min ,hum_max = hum_max,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2)
 
     
-
-
-   
-
-        
-  
-
-
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):

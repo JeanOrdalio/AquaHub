@@ -55,15 +55,24 @@ class Device(db.Model):
     name_sensor_temp01 = db.Column(db.String)
     name_sensor_temp02 =db.Column(db.String)
     name_sensor_hum = db.Column(db.String)
+    name_rele1 = db.Column(db.String)
+    name_rele2 = db.Column(db.String)
+    name_rele3 = db.Column(db.String)
+    name_rele4 = db.Column(db.String)
 
 
-    def __init__(self,user,rele1,temp,name_sensor_temp01, name_sensor_temp02,name_sensor_hum):
+
+    def __init__(self,user,rele1,temp,name_sensor_temp01, name_sensor_temp02,name_sensor_hum,name_rele1,name_rele2,name_rele3,name_rele4):
         self.user = user
         self.rele1 = rele1
         self.temp = temp
         self.name_sensor_hum = name_sensor_hum
         self.name_sensor_temp01 = name_sensor_temp01
         self.name_sensor_temp02 = name_sensor_temp02
+        self.name_rele1 = name_rele1
+        self.name_rele2 = name_rele2
+        self.name_rele3 = name_rele3
+        self.name_rele4 = name_rele4
 
         
 
