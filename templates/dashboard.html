@@ -1,95 +1,144 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css')}}">
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
 
-<div class="sidenav">
-  <a href="{{url_for('dashboard')}}">Dashboard </a>
-  <a href="{{url_for('sensores')}}">Sensores</a>
-  <a href="{{url_for('reles')}}">Tomadas </a>
-  <a href="{{url_for('configs')}}">Configuraçoes </a>
-  <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
-  
-</div>
-<main class ="main">
-  <div>
-    <p>Tempo Local</p>
+  <div class="sidenav">
+    <a href="{{url_for('dashboard')}}">Dashboard </a>
+    <a href="{{url_for('sensores')}}">Sensores</a>
+    <a href="{{url_for('reles')}}">Tomadas </a>
+    <a href="{{url_for('configs')}}">Configuraçoes </a>
+    <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
+    
   </div>
-  <div class ="reles">
-    <div class="rele">
-      <h2 class="nome_rele">{{name_rele1}}</h2>
-      <p class="status_rele">{{status}}</p>
-      <p class="status">{{rele1}}</p>
-      
-    </div>
-    <div class="rele">
-      <h2 class="nome_rele">{{name_rele2}}</h2>
-       <p class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>
-    <div class="rele">
-      <h2 class="nome_rele">{{name_rele3}}</h2>
-      <p class="status_rele">{{status}}</p>
-      <p class="status">{{rele1}}</p>
-    </div>
-    <div class="rele">
-      <h2 class="nome_rele">{{name_rele4}}</h2>
-       <p class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>  
-    <div class="rele">
-       <h2 class="nome_rele">Nome do Rele </h2>
-       <p class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>  
-    <div class="rele">
-       <h2 class="nome_rele">Nome do Rele </h2>
-       <p class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>
-    <div class="rele">
-       <h2 class="nome_rele">Nome do Rele </h2>
-       <p  class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>
-    <div class="rele">
-       <h2 class="nome_rele">Nome do Rele </h2>
-       <p class="status_rele">{{status}}</p>
-       <p class="status">{{rele1}}</p>
-    </div>
-  
+    
+    <main class ="main">
+      <div class ="sensorhum_name">
+        <h3 >{{sensorhum_name}}</h3>
+        <p> 05/08/2024 á 06/08/2024</p>
+        <canvas id="Sensorhum" class= "chart_sensorhum"></canvas>
+      </div> 
+      <div class ="sensor1_name">
+        <h3 >{{sensor1_name}}</h3>
+        <p> 05/08/2024 á 06/08/2024</p>
+        <canvas id="Sensor1" class= "chart_sensor1"></canvas>
+      </div>
+      <div class ="sensor2_name">
+        
+          <h3 >{{sensor2_name}}</h3>
+          <h2>{{sensor2}}</h2>
+          <p> 05/08/2024 á 06/08/2024</p>
        
-    </div>  
-  </div>
-  <div class ="sensores">
-    <div class="sensor">
-      <h2 class="nome_rele">{{name_sensor_temp1 }}</h2>
-      <p class="status_rele">{{status}}</p>
-       <p class="status">{{sensor01}}ºC</p>
-    </div>
-    <div class="sensor">
-      <h2 class="nome_rele">{{name_sensor_temp2 }}</h2>
-      <p class="status_rele">{{status}}</p>
-      <p class="status">{{sensor02}}ºC</p>
-    </div>
-    <div class="sensor">
-      <h2 class="nome_rele">{{name_sensor_hum }}</h2>
-      <p class="status_rele">{{status}}</p>
-      <p class="status">{{sensorhum}}Cº</p>
-    </div>
-    </div>
-  </div>
+        <canvas id="Sensor2" class= "chart_sensor2"></canvas>
+      </div>
+      <div>
+        <script>
+          const sensorhum_json = JSON.parse('{{ sensorhum_json|tojson|safe}}');
+          const labels_hum = sensorhum_json.map(item => item.Hora);
+          const estado_hum = sensorhum_json.map(item => item.Estado);
+          const valormin_hum = Math.min(...estado_hum);
+          const valormax_hum = Math.max(...estado_hum);
+          const Sensorhum = document.getElementById('Sensorhum');
+        
+          new Chart(Sensorhum, {
+            type: 'line',
+            data: {
+              labels: labels_hum,
+              datasets: [{
+                label: 'Humidade',
+                data: estado_hum,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.5,
+                backgroundColor:'rgb(255, 99, 71)',
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  min:valormin_hum,
+                  max:valormax_hum,
+                }
+              }
+            }
+          });
+        </script>
 
-  
-
-</main>
-
-   
-</body>
+      </div>
+      <div>
+        <script>
+          const sensor1_json = JSON.parse('{{ sensor1_json|tojson|safe}}');
+          const labels_1 = sensor1_json.map(item => item.Hora);
+          const estado_1 = sensor1_json.map(item => item.Estado);
+          const valormin_1 = Math.min(...estado_1);
+          const valormax_1 = Math.max(...estado_1);
+          const Sensor1 = document.getElementById('Sensor1');
+        
+          new Chart(Sensor1, {
+            type: 'line',
+            data: {
+              labels: labels_1,
+              datasets: [{
+                label: 'Temperatura',
+                data: estado_1,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.5,
+                backgroundColor:'rgb(60, 179, 113)',
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  min:valormin_1,
+                  max:valormax_1,
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div>
+        <script>
+          const sensor2_json = JSON.parse('{{ sensor2_json|tojson|safe}}');
+          const labels_2 = sensor2_json.map(item => item.Hora);
+          const estado_2 = sensor2_json.map(item => item.Estado);
+          const valormin_2 = Math.min(...estado_2);
+          const valormax_2 = Math.max(...estado_2);
+          const Sensor2 = document.getElementById('Sensor2');
+        
+          new Chart(Sensor2, {
+            type: 'line',
+            data: {
+              labels: labels_2,
+              datasets: [{
+                label: 'Temperatura',
+                data: estado_2,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.5,
+                backgroundColor:'rgb(255, 165, 0)',
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  min:valormin_2,
+                  max:valormax_2,
+                }
+              }
+            }
+          });
+        </script>
+        
+      </div>
+    </main>  
+  </body>
 </html> 
 
 

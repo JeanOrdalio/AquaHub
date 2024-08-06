@@ -4,6 +4,7 @@ from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
 from controllers.controllers import Sensor,Sensor_Get
+import json
 
 
 
@@ -84,27 +85,33 @@ def logout():
 @login_required
 def dashboard():
     try:
+        data_hum = Sensor_Get.sensor_get(Sensor.sensorhum)
+        sensorhum_json = data_hum.to_json(orient='records')
+        sensorhum_json = json.loads(sensorhum_json)
         
-        user = current_user.name
-        device = Device.query.filter_by(user = user ).first()
-        name_rele1 = device.name_rele1
-        name_rele2 = device.name_rele2
-        name_rele3 = device.name_rele3
-        name_rele4 = device.name_rele4
-        name_sensor_temp1 = device.name_sensor_temp01
-        name_sensor_temp2 = device.name_sensor_temp02
-        name_sensor_hum = device.name_sensor_hum
-        rele1 = device.rele1
-        sensor01 = device.sensortemp01
-        sensor02= device.sensortemp02
-        sensorhum= device.sensorhum
-        if  rele1 == "0":
-            rele1 = "Desligado"
-            status = "Online"
-        if rele1 =="1":
-            rele1 = "Ligado"
-            status = "Online"
-        return render_template('dashboard.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2,rele1 = rele1,status = status, sensor01 = sensor01, sensor02 = sensor02 , sensorhum = sensorhum)
+        
+        data_sensor1 = Sensor_Get.sensor_get(Sensor.sensor1)
+        sensor1_json = data_sensor1.to_json(orient='records')
+        sensor1_json = json.loads(sensor1_json)
+
+        data_sensor2 = Sensor_Get.sensor_get(Sensor.sensor2)
+        sensor2_json = data_sensor2.to_json(orient='records')
+        sensor2_json = json.loads(sensor2_json)
+
+
+
+        data_device = Device.query.filter_by(id = current_user.id).first()
+        sensor1_name = data_device.name_sensor_temp01
+        sensor2_name = data_device.name_sensor_temp02
+        sensorhum_name = data_device.name_sensor_hum
+        sensor1 = data_device.sensortemp01
+        sensor2 = data_device.sensortemp02
+        sensorhum = data_device.sensorhum
+        
+
+        
+
+        return render_template('dashboard.html', sensorhum_json = sensorhum_json, sensor1_json = sensor1_json,sensor1_name = sensor1_name,sensor2_name = sensor2_name,sensorhum_name = sensorhum_name,sensor2_json =sensor2_json,data_sensor2 = data_sensor2,sensor1 = sensor1, sensor2 = sensor2, sensorhum = sensorhum)
 
     except:
         status ="Offline"
@@ -194,7 +201,7 @@ def sensores():
     hum_min = sensorhum_inf['Estado'].min()
     
 
-    print(sensor1_inf)
+    
 
     data = Device.query.filter_by(id = current_user.id).first()
     sensor1 = data.sensortemp01

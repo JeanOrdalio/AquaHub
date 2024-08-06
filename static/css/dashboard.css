@@ -1,7 +1,9 @@
 
+
 body {
   font-family: "Lato", sans-serif;
   background-image: linear-gradient(to right, #4c6c81, #083263);
+
   
 }
 
@@ -31,7 +33,13 @@ body {
 }
 
 .main{
-  margin-left: 200px; 
+  margin-top: 20px;
+  margin-left: 220px; 
+  display: flex;
+  column-gap:55px;
+  flex-wrap: wrap;
+  row-gap: 55px;
+  
   
   
   
@@ -100,4 +108,96 @@ body {
   border-radius: 10px;
   column-gap: 50%;
 
+}
+
+.chart_sensorhum{
+  border-radius: 9px;
+  background-color: rgb(255, 255, 255);
+  width: 650px;
+  height: 750px;
+
+}
+.sensorhum_name{
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.sensorhum_name h3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.sensorhum_name p{
+  margin-top: 0%;
+  font-size: smaller;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+
+.chart_sensor1{
+  border-radius: 9px;
+  background-color: rgb(255, 255, 255);
+  width: 650px;
+  height: 750px;
+  
+}
+.sensor1_name{
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.sensor1_name h3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.sensor1_name p{
+  margin-top: 0%;
+  font-size: smaller;
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.chart_sensor2{
+  border-radius: 9px;
+  background-color: rgb(255, 255, 255);
+  width: 650px;
+  height: 750px;
+  
+}
+.sensor2_name{
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.sensor2_name h3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.sensor2_name p{
+  margin-top: 0%;
+  font-size: smaller;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
 }

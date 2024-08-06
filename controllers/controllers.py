@@ -49,7 +49,7 @@ class Sensor_Get():
 
         df['last_updated'] = df['last_updated'].dt.tz_convert('America/Sao_Paulo')
         df['Data'] = df['last_updated'].dt.strftime(('%Y-%m-%d'))
-        df['Hora'] = df['last_updated'].dt.strftime(('%H:%M:%S'))
+        df['Hora'] = df['last_updated'].dt.strftime(('%H:%M'))
         df['Estado'] = df['state']
         df = df = df[df['state'] != 'unavailable'] 
         df = df = df[df['state'] != 'unknown']
