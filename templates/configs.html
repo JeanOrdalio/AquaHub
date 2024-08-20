@@ -5,6 +5,7 @@
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/configs.css')}}">
+    <script src="static/js/configs.js"></script>
   
 </head>
 <body>
@@ -86,24 +87,7 @@
     </div>
 
 </main>
-<script>
-    
-  var barra = document.getElementById('sidenav_ul').addEventListener("mouseover",function(){
-    var sidenav = document.getElementById('sidenav');
-    var main = document.getElementById('main');
-    sidenav.style.width = "230px";
-    main.style.marginLeft ="270px"
-  })
-  var barra = document.getElementById('sidenav_ul').addEventListener("mouseout",function(){ 
-    var sidenav = document.getElementById('sidenav');
-    var main = document.getElementById('main');
-    sidenav.style.width = "65px";
-    main.style.marginLeft = "120px"
-  })
-  
 
-</script>  
-   
 </body>
 </html> 
 
