@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/configs.css')}}">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/configs.css')}}">
   
 </head>
 <body>
+  <div class="sidenav" id="sidenav">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png')}}" />
+    </div>
 
-<div class="sidenav">
-  <a href="{{url_for('dashboard')}}">Dashboard </a>
-  <a href="{{url_for('sensores')}}">Sensores</a>
-  <a href="{{url_for('reles')}}">Tomadas </a>
-  <a href="{{url_for('configs')}}">Configuraçoes </a>
-  <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
-  
-</div>
-<main class ="main">
+    <ul id="sidenav_ul">
+      <li>
+        <a href="{{url_for('dashboard')}}" id="dash"
+          ><span class="material-symbols-outlined"> dashboard</span>Dashboard</a
+        >
+      </li>
+      <li>
+        <a href="{{url_for('sensores')}}"
+          ><span class="material-symbols-outlined"> thermostat</span
+          >Sensores</a
+        >
+      </li>
+      <li>
+        <a href="{{url_for('reles')}}"
+          ><span class="material-symbols-outlined"> power </span>Tomadas</a
+        >
+      </li>
+      <li>
+        <a href="{{url_for('configs')}}"
+          ><span class="material-symbols-outlined"> settings</span
+          >Configuraçoes</a
+        >
+      </li>
+      <li>
+        <a href="{{url_for('logout')}}" style="position: relative; top: 15em"
+          ><span class="material-symbols-outlined"> logout</span>Sair
+        </a>
+      </li>
+    </ul>
+  </div>
+<main class ="main" id ="main">
     <div class="configs">
       
         <div class ="sensor_container">
@@ -55,19 +82,27 @@
           </form>
         
         </div>
-      
-    
-
-
       </div>
-      
-      
-      
     </div>
- 
 
 </main>
+<script>
+    
+  var barra = document.getElementById('sidenav_ul').addEventListener("mouseover",function(){
+    var sidenav = document.getElementById('sidenav');
+    var main = document.getElementById('main');
+    sidenav.style.width = "230px";
+    main.style.marginLeft ="270px"
+  })
+  var barra = document.getElementById('sidenav_ul').addEventListener("mouseout",function(){ 
+    var sidenav = document.getElementById('sidenav');
+    var main = document.getElementById('main');
+    sidenav.style.width = "65px";
+    main.style.marginLeft = "120px"
+  })
+  
 
+</script>  
    
 </body>
 </html> 

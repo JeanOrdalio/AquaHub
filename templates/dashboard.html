@@ -2,41 +2,64 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css')}}">
+   
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
 
-  <div class="sidenav">
-    <a href="{{url_for('dashboard')}}">Dashboard </a>
-    <a href="{{url_for('sensores')}}">Sensores</a>
-    <a href="{{url_for('reles')}}">Tomadas </a>
-    <a href="{{url_for('configs')}}">Configuraçoes </a>
-    <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
-    
-  </div>
-    
-    <main class ="main">
-      <div class ="sensorhum_name">
-        <h3 >{{sensorhum_name}}</h3>
-        <p> 05/08/2024 á 06/08/2024</p>
-        <canvas id="Sensorhum" class= "chart_sensorhum"></canvas>
-      </div> 
-      <div class ="sensor1_name">
-        <h3 >{{sensor1_name}}</h3>
-        <p> 05/08/2024 á 06/08/2024</p>
-        <canvas id="Sensor1" class= "chart_sensor1"></canvas>
+  <div class="sidenav" id="sidenav">
+   
+    <ul id="sidenav_ul">
+      <div class = "logo">
+        <img src="{{ url_for('static', filename='images/logo.png')}}" >
       </div>
-      <div class ="sensor2_name">
+      <li>
+        <a href="{{url_for('dashboard')}}" id="dash"><span class="material-symbols-outlined">
+            dashboard</span>Dashboard</a>
+      </li>
+      <li>
+        <a href="{{url_for('sensores')}}"><span class="material-symbols-outlined">
+            thermostat</span>Sensores</a>
+      </li>
+      <li>
+        <a href="{{url_for('reles')}}"><span class="material-symbols-outlined">
+            power </span>Tomadas</a>
+      </li>
+      <li>
+        <a href="{{url_for('configs')}}"><span class="material-symbols-outlined">
+            settings</span>Configuraçoes</a>
+      </li>
+      <li>
+        <a href="{{url_for('logout')}}" style="position: relative; top: 15em;"><span class="material-symbols-outlined">
+            logout</span>Sair</a>
+        </a>
+      </li>
+    </ul>
+  </div>
+    <main class="main" id="main">   
+      <div class="sensors_name">
+        <h3 >{{sensorhum_name}}</h3>
+        <h2> {{sensorhum}}%</h2>
+        <p> 05/08/2024 á 06/08/2024</p>
+        <canvas id="Sensorhum" class="charts"></canvas>
+      </div> 
+      <div class="sensors_name">
+        <h3 >{{sensor1_name}}</h3>
+        <h2> {{sensor1}}º</h2>
+        <p> 05/08/2024 á 06/08/2024</p>
+        <canvas id="Sensor1" class="charts"></canvas>
+      </div>
+      <div class="sensors_name">
         
           <h3 >{{sensor2_name}}</h3>
-          <h2>{{sensor2}}</h2>
+          <h2>{{sensor2}}º</h2>
           <p> 05/08/2024 á 06/08/2024</p>
        
-        <canvas id="Sensor2" class= "chart_sensor2"></canvas>
+        <canvas id="Sensor2" class="charts"></canvas>
       </div>
-      <div>
         <script>
           const sensorhum_json = JSON.parse('{{ sensorhum_json|tojson|safe}}');
           const labels_hum = sensorhum_json.map(item => item.Hora);
@@ -68,9 +91,7 @@
             }
           });
         </script>
-
-      </div>
-      <div>
+         
         <script>
           const sensor1_json = JSON.parse('{{ sensor1_json|tojson|safe}}');
           const labels_1 = sensor1_json.map(item => item.Hora);
@@ -102,8 +123,7 @@
             }
           });
         </script>
-      </div>
-      <div>
+
         <script>
           const sensor2_json = JSON.parse('{{ sensor2_json|tojson|safe}}');
           const labels_2 = sensor2_json.map(item => item.Hora);
@@ -135,8 +155,22 @@
             }
           });
         </script>
-        
-      </div>
+      <script>
+
+        var barra = document.getElementById('sidenav_ul').addEventListener("mouseover", function () {
+          var sidenav = document.getElementById('sidenav');
+          var main = document.getElementById('main');
+          sidenav.style.width = "230px";
+          main.style.marginLeft = "270px";
+        })
+        var barra = document.getElementById('sidenav_ul').addEventListener("mouseout", function () {
+          var sidenav = document.getElementById('sidenav');
+          var main = document.getElementById('main');
+          sidenav.style.width = "65px";
+          main.style.marginLeft = "70px";
+        })
+      
+      </script>
     </main>  
   </body>
 </html> 

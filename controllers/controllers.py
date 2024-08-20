@@ -1,4 +1,4 @@
-from requests import get
+from requests import get,post
 from flask import request,redirect,url_for
 from flask_login import current_user,login_required
 from models.models import Device
@@ -7,6 +7,34 @@ import pandas as pd
 
 
 
+class Sensor_state():
+
+    def __init__(self,sensor):
+        self.sensor = sensor
+    
+    def state(sensor):
+        url = "http://192.168.2.239:8123/api/states"
+        headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxYjVhNTQ5NmEzNmM0MWYyOWRmY2I1NDg1MGEwYTBlOCIsImlhdCI6MTcyMzkwODI5OSwiZXhwIjoyMDM5MjY4Mjk5fQ.J0C6-KurkkgVUxT_61_3cX4qIgKWMH1MJm5sS9GnlVI",
+        "content-type": "application/json",
+        }
+
+        response = get(url, headers=headers)
+        data = response.json()
+        df= pd.DataFrame(data)[['entity_id','state']]
+        df = df = df[df['entity_id'] == (f'{sensor}')] 
+        for c in df['state']:
+            valor = c 
+        return valor
+
+
+
+class Reles ():
+    rele1 = "switch.sensor_temperatura_e_umidade"
+
+
+    def __init__(self,rele1):
+        self.rele1 = rele1
 
 
 class Sensor():
@@ -21,17 +49,54 @@ class Sensor():
         self.sensorhum = sensorhum
 
 
+class Auto_rele():
 
-class Sensor_Get():
+    def __init__(self,hora, rele, name,status):
+        self.hora = hora
+        self.rele = rele
+        self.name = name
+        self.status = status
+        
+
+    def automacao(hora,name,status,autor):
+
+        url = (f"http://192.168.2.239:8123/api/config/automation/config/{name}")
+        headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxYjVhNTQ5NmEzNmM0MWYyOWRmY2I1NDg1MGEwYTBlOCIsImlhdCI6MTcyMzkwODI5OSwiZXhwIjoyMDM5MjY4Mjk5fQ.J0C6-KurkkgVUxT_61_3cX4qIgKWMH1MJm5sS9GnlVI",
+        "content-type": "application/json",
+        }
+
+        automation_data = {
+        "alias": (f"{autor}_{name}"),
+        "trigger": [
+            {
+                "platform": "time",
+                "at": (f"{hora}")
+            }
+        ],
+        "action": [
+            {
+                "service": (f"switch.turn_{status}"),
+                "target": {
+                    "entity_id":"switch.sensor_temperatura_e_umidade"
+                }
+            }
+        ]
+        }
+
+        response = post(url, json=automation_data, headers=headers)
+      
+
+class Sensor_log():
      
 
     def __init__(self,sensor):
         self.sensor = sensor
 
     def sensor_get(sensor):
-        url = (f"http://192.168.2.203:8123/api/history/period?filter_entity_id={sensor}")
+        url = (f"http://192.168.2.239:8123/api/history/period?filter_entity_id={sensor}")
         headers = {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmOGYwMzQ2YjAwYTc0Yjk4OTE3Nzk3NWE0ODVlYjk3YSIsImlhdCI6MTcyMjM1MTkwNiwiZXhwIjoyMDM3NzExOTA2fQ.xk0IJe0aSD4w_ulQwJJBSxKAph8R925xyMx3-j7UZSM",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxYjVhNTQ5NmEzNmM0MWYyOWRmY2I1NDg1MGEwYTBlOCIsImlhdCI6MTcyMzkwODI5OSwiZXhwIjoyMDM5MjY4Mjk5fQ.J0C6-KurkkgVUxT_61_3cX4qIgKWMH1MJm5sS9GnlVI",
     "content-type": "application/json",
     }
 
@@ -56,6 +121,9 @@ class Sensor_Get():
         df = df = df[df['state'] != '']
 
         df = df[['Data','Hora','Estado']]
+
+
+        
 
        
 
@@ -128,8 +196,6 @@ def alternar_reles():
         data_rele.rele1 = "1"
         db.session.commit()
         return redirect(url_for('reles'))
-
-
 
 
 @app.route('/executor_sensor_name', methods=['POST'])

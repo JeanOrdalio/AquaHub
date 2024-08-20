@@ -1,203 +1,135 @@
-
-
 body {
-  font-family: "Lato", sans-serif;
-  background-image: linear-gradient(to right, #4c6c81, #083263);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-image: linear-gradient(to right, #57a5da, #37afd3);
+  width: 100%;
+  overflow: hidden;
+  font-weight: lighter;
+  margin: 0px;
+  padding: 1px;
+}
 
-  
+.material-symbols-outlined {
+  font-size: 32px;
 }
 
 .sidenav {
-  height: 100%;
-  width: 200px;
-  position: fixed;
+  display: flex;
+  height: 105%;
+  width: 230px;
   z-index: 1;
-  top: 0;
+  position: fixed;
   left: 0;
-  background-color: #11111128 ;
-  overflow-x: hidden;
-  padding-top: 20px;
-  margin: 8x
+  background-color: #ffffffdc;
+  overflow: hidden;
+  padding-top: 10px;
+  margin: 0;
+  border-radius: 5px;
+  transition: all 1s;
+}
+.logo img {
+  position: absolute;
+  height: 50px;
+  width: 55px;
+  bottom: 50em;
+  margin-left: 5px;
+  border-radius: 10%;
+}
+
+.sidenav span {
+  margin-left: 10px;
+  margin-right: 20px;
 }
 
 .sidenav a {
-  padding: 6px 6px 6px 32px;
-  text-decoration: none;
-  font-size: 22px;
-  color: #ffffff;
-  display: block;
-}
-
-.sidenav a:hover {
-  color: #f1f1f1;
-}
-
-.main{
-  margin-top: 20px;
-  margin-left: 220px; 
+  position: relative;
   display: flex;
-  column-gap:55px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #444444;
+  padding: 0;
+  border-radius: 8%;
+  width: 200px;
+  left: 8px;
+}
+.sidenav ul {
+  margin-top: 228px;
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: 0;
+  row-gap: 3.97%;
+  width: 100%;
+}
+.sidenav a:hover {
+  color: #adadad;
+  background-color: #494949;
+}
+
+.main {
+  margin-top: 20px;
+  margin-left: 270px;
+  display: flex;
+  column-gap: 55px;
   flex-wrap: wrap;
   row-gap: 55px;
-  
-  
-  
-  
+  transition: all 1s;
 }
 
-.reles{
-  margin: 2px;
-  border-radius: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 40px;
-  row-gap: 25px;
-  font-weight:bold;
-  font-size: small;
-  
- 
-}
-.rele{
-  background-color: #ffffffee;
-  height: 100px;
-  width:  325px;
-  border-radius: 10px;
-
-}
-
-.nome_rele{
-  text-align: center;
-  margin: 10px 0 0 0 ;
-
-}
-
-.status_rele{
-  
-  text-align: center;
-  margin: 10px;
-}
-
-.status{
-  text-align: center;
-}
-
-
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-
-}
-
-.sensores{
-  margin-left: 2px;
-  margin-top:  100px;
-  border-radius: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 40px;
-  row-gap: 25px;
-  font-weight:bold;
-  font-size: small;
-}
-
-.sensor{
-  background-color: #ffffffee;
-  height: 100px;
-  width:  446px;
-  border-radius: 10px;
-  column-gap: 50%;
-
-}
-
-.chart_sensorhum{
+.charts {
   border-radius: 9px;
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.308);
   width: 650px;
   height: 750px;
-
 }
-.sensorhum_name{
-  background-color: rgb(255, 255, 255);
+.sensors_name {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.664);
   border-radius: 15px;
-  justify-content: center;
-  align-items: center;
- 
-}
-.sensorhum_name h3{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  justify-items: center;
   align-items: center;
+  margin: 0;
+  color: white;
+}
+.sensors_name h3 {
   margin-bottom: 0;
+  margin-top: 13px;
+  position: relative;
+  top: 10px;
 }
 
-.sensorhum_name p{
+.sensors_name h2 {
+  margin: 0;
+  position: relative;
+  left: 265px;
+  animation-name: atual;
+  animation-iteration-count: infinite;
+  animation-duration: 3s;
+}
+
+.sensors_name p {
   margin-top: 0%;
+  position: relative;
   font-size: smaller;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 0;
+
   margin-bottom: 2px;
+  bottom: 10px;
 }
 
-
-.chart_sensor1{
-  border-radius: 9px;
-  background-color: rgb(255, 255, 255);
-  width: 650px;
-  height: 750px;
-  
-}
-.sensor1_name{
-  background-color: rgb(255, 255, 255);
-  border-radius: 15px;
-  justify-content: center;
-  align-items: center;
- 
-}
-.sensor1_name h3{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-.sensor1_name p{
-  margin-top: 0%;
-  font-size: smaller;
-  display: flex;
-  
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2px;
-}
-
-.chart_sensor2{
-  border-radius: 9px;
-  background-color: rgb(255, 255, 255);
-  width: 650px;
-  height: 750px;
-  
-}
-.sensor2_name{
-  background-color: rgb(255, 255, 255);
-  border-radius: 15px;
-  justify-content: center;
-  align-items: center;
- 
-}
-.sensor2_name h3{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-.sensor2_name p{
-  margin-top: 0%;
-  font-size: smaller;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2px;
+@keyframes atual {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+  50% {
+    color: rgb(116, 116, 116);
+  }
+  75% {
+    color: rgb(124, 230, 133);
+  }
+  100% {
+    color: rgb(0, 0, 0);
+  }
 }

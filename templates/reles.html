@@ -2,95 +2,203 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reles.css')}}">
+
 
   </head>
   <body>
 
-    <div class="sidenav">
-      <a href="{{url_for('dashboard')}}">Dashboard </a>
-      <a href="{{url_for('sensores')}}">Sensores</a>
-      <a href="{{url_for('reles')}}">Tomadas</a>
-      <a href="{{url_for('configs')}}">Configuraçoes </a>
-      <a href="{{url_for('logout')}}"style="margin-top: 650px;"> Sair</a>
-      
-    </div>
-    <main class ="main">
-      <div class ="reles">
-        <div class="rele">
-          <h2 class="nome_rele">{{name_rele1}}</h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-                <button  type="submit">Ligar/Desligar</button>
-          </form>
-          
-        </div>
-        <div class="rele">
-          <h2 class="nome_rele">{{name_rele2}}</h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-              <button  type="submit">Ligar/Desligar</button>
-            </form>
-        </div>
-        <div class="rele">
-          <h2 class="nome_rele">{{name_rele3}}</h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        
-        </div>
-        <div class="rele">
-          <h2 class="nome_rele">{{name_rele4}}</h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        </div>  
-        <div class="rele">
-          <h2 class="nome_rele">Nome do Rele</h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        </div>  
-        <div class="rele">
-          <h2 class="nome_rele">Nome do Rele </h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        </div>
-        <div class="rele">
-          <h2 class="nome_rele">Nome do Rele </h2>
-          <p  class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        </div>
-        <div class="rele">
-          <h2 class="nome_rele">Nome do Rele </h2>
-          <p class="status_rele">{{status}}</p>
-          <p class="status">{{rele1}}</p>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
-          </form>
-        </div>
-      
-          
-        </div>  
+    <div class="sidenav" id="sidenav">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png')}}" />
       </div>
 
-    </main>
+      <ul id="sidenav_ul">
+        <li>
+          <a href="{{url_for('dashboard')}}" id="dash"
+            ><span class="material-symbols-outlined"> dashboard</span>Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('sensores')}}"
+            ><span class="material-symbols-outlined"> thermostat</span
+            >Sensores</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('reles')}}"
+            ><span class="material-symbols-outlined"> power </span>Tomadas</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('configs')}}"
+            ><span class="material-symbols-outlined"> settings</span
+            >Configuraçoes</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('logout')}}" style="position: relative; top: 15em"
+            ><span class="material-symbols-outlined"> logout</span>Sair
+          </a>
+        </li>
+      </ul>
+    </div>
+  <main class="main" id="main">
+      <div class="reles_a">
+        <div class="rele" id="rele1">
+          <h2 class="nome_rele">{{name_rele1}}</h2>
+          <a class="config" id ="config1"><span class="material-symbols-outlined" id ="config1">
+            settings</span></a>
+            <div class="seletor_auto">
+              <button>Tela1</button>
+              <button>Tela2</button>
+            </div>
+            <div class="auto">
+              <div class="data">
+                <form  id ="data_auto"action="" method="post" class ="data">
+                  <input type="text" value="{{name_rele1}}" name ="teste" class ="hidden"  id ="autor1">
+                  <label for="name_auto">Nome da Rotina</label>
+                  <input type="text" name="name_auto" id="">
+                  <label for ="hora_auto">Hora</label>
+                  <input type="time" name="hora_auto" class="hora_auto">
+                  <input type="text" value="" name ="status1" class ="hidden"  id =checkbox1>
+                  <label for="ligado_desligado">On<input type="checkbox"  data-id="on" name ="status_on" ><input type="checkbox" data-id ="off" name ="status_off">Off</label>
+                  <button onclick="validade()" id ="btn1">Salvar </button>
+                </form>
+              </div>
+             <div class="disp">
 
+             </div>
+            </div>
+        </div>
+        <div class="rele" id="rele2">
+          <h2 class="nome_rele">{{name_rele2}}</h2>
+          <a class="config" id ="config2"><span class="material-symbols-outlined" id ="config2">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button type="submit">Ligar/Desligar</button>
+            </form>
+        </div>
+      </div>
+      <div class="reles_b">
+        <div class="rele" id="rele3">
+          <h2 class="nome_rele">{{name_rele3}}</h2>
+          <a class="config" id ="config3"><span class="material-symbols-outlined" id ="config3">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+        <div class="rele" id="rele4">
+          <h2 class="nome_rele">{{name_rele4}}</h2>
+          <a class="config" id ="config4"><span class="material-symbols-outlined" id ="config4">
+            settings</span></a>
+        </div>
+      </div>
+      <div class="reles_c">
+        <div class="rele" id="rele5">
+          <h2 class="nome_rele">{{name_rele1}}</h2>
+          <a class="config" id ="config5"><span class="material-symbols-outlined" id ="config5">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+        <div class="rele" id="rele6">
+          <h2 class="nome_rele">{{name_rele1}}</h2>
+          <a class="config" id ="config6"><span class="material-symbols-outlined" id ="config6">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+      </div>
+      <div class="reles_d">
+        <div class="rele" id="rele7">
+          <h2 class="nome_rele">{{name_rele1}}</h2>
+          <a class="config" id ="config7"><span class="material-symbols-outlined" id ="config7">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+        <div class="rele" id="rele8">
+          <h2 class="nome_rele">{{name_rele1}}</h2>
+          <a class="config" id ="config8"><span class="material-symbols-outlined" id ="config8">
+            settings</span></a>
+          <form class="botao" name="rele1" action="/executor_rele1" method="post">
+            <button  type="submit">Ligar/Desligar</button>
+          </form>
+        </div>
+    <script>
+
+      function evento(rele,botao,icon) {
+
+        var on_off = 0
+        var click = document.getElementById(botao).addEventListener("click", function () {
+          var botao = document.getElementById(icon)
+          var obj = document.getElementById(rele);
+
+          if (on_off == 0) {
+            obj.style.height = "400px";
+            botao.style.top="335px";
+    
+            
+            on_off = 1;
+          } else {
+            obj.style.height = "100px";
+            botao.style.top="32px";
+            on_off = 0;
+          }
+
+        })
+      }
+      evento('rele1','config1','config1'); evento('rele2','config2','config2'); evento('rele3','config3','config3'); evento('rele4','config4','config4'); evento('rele5','config5','config5'); evento('rele6','config6','config6'); evento('rele7','config7','config7'); evento('rele8','config8','config8');
+    </script>
+    <script>
+    function validade(){  
+      const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+      var btn1 = document.getElementById("btn1")
+      var form = document.getElementById("data_auto")
+      var input = document.getElementById("checkbox1")
+      for (let checkbox of checkboxes) {
+        var check = checkbox.dataset.id;
+      input.value = check
+      btn1.addEventListener('click', function(){   
+        form.submit()
+      })
+      }
+      }
+        
+       
+
+     
       
+    
+    </script>
+  
+
+  </main>
+
+  <script>
+
+    var barra = document.getElementById('sidenav_ul').addEventListener("mouseover", function () {
+      var sidenav = document.getElementById('sidenav');
+      var main = document.getElementById('main');
+      sidenav.style.width = "230px";
+      main.style.marginLeft = "270px"
+    })
+    var barra = document.getElementById('sidenav_ul').addEventListener("mouseout", function () {
+      var sidenav = document.getElementById('sidenav');
+      var main = document.getElementById('main');
+      sidenav.style.width = "65px";
+      main.style.marginLeft = "120px";
+    })
+
+
+  </script>
   </body>
 </html> 
 

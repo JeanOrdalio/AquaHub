@@ -11,7 +11,7 @@ app.app_context().push()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 db = SQLAlchemy(app)
 app.secret_key = 'webmaster'
-app.config['MQTT_BROKER_URL'] = '192.168.2.203'
+app.config['MQTT_BROKER_URL'] = '192.168.2.239'
 app.config['MQTT_BROKER_PORT'] = 1883
 app.config['MQTT_USERNAME'] = 'home' 
 app.config['MQTT_PASSWORD'] = 'webmaster'  
@@ -25,10 +25,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 mqtt_client.subscribe('jean/controle')
 mqtt_client.subscribe('jean/reles')
-mqtt_client.subscribe('jean/sensores/aquario')
-mqtt_client.subscribe('jean/sensores/terrario')
-mqtt_client.subscribe('jean/sensores/humidade_terrario')
-
 
 
 ### Token Home Assistant eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmOGYwMzQ2YjAwYTc0Yjk4OTE3Nzk3NWE0ODVlYjk3YSIsImlhdCI6MTcyMjM1MTkwNiwiZXhwIjoyMDM3NzExOTA2fQ.xk0IJe0aSD4w_ulQwJJBSxKAph8R925xyMx3-j7UZSM  

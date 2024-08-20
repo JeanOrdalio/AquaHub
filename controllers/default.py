@@ -3,7 +3,7 @@ from flask import render_template,request,redirect,url_for
 from models.models import User,Device,Keys,Device_log
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
-from controllers.controllers import Sensor,Sensor_Get
+from controllers.controllers import Sensor,Sensor_log,Reles,Auto_rele,Sensor_state
 import json
 
 
@@ -85,16 +85,17 @@ def logout():
 @login_required
 def dashboard():
     try:
-        data_hum = Sensor_Get.sensor_get(Sensor.sensorhum)
+        data_hum = Sensor_log.sensor_get(Sensor.sensorhum)
         sensorhum_json = data_hum.to_json(orient='records')
         sensorhum_json = json.loads(sensorhum_json)
+       
         
         
-        data_sensor1 = Sensor_Get.sensor_get(Sensor.sensor1)
+        data_sensor1 = Sensor_log.sensor_get(Sensor.sensor1)
         sensor1_json = data_sensor1.to_json(orient='records')
         sensor1_json = json.loads(sensor1_json)
-
-        data_sensor2 = Sensor_Get.sensor_get(Sensor.sensor2)
+        
+        data_sensor2 = Sensor_log.sensor_get(Sensor.sensor2)
         sensor2_json = data_sensor2.to_json(orient='records')
         sensor2_json = json.loads(sensor2_json)
 
@@ -121,31 +122,26 @@ def dashboard():
 @app.route('/reles',methods= ['GET','POST'])
 @login_required
 def reles():
-    
-    
-    try:
-        device = Device.query.filter_by(user = current_user.name ).first()
-        name_rele1 = device.name_rele1
-        name_rele2 = device.name_rele2
-        name_rele3 = device.name_rele3
-        name_rele4 = device.name_rele4
-        if request.method == 'POST' and request.form.rele123:
-            print("kabum")
-        data_rele = Device.query.filter_by(user = current_user.name ).first()
-        rele1 = data_rele.rele1
-        if data_rele.rele1 == "0":
-            rele1 = "Desligado"
-            status = "Online"
-            return render_template('reles.html',rele1 = rele1,status = status,name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)
-        if data_rele.rele1 == "1":
-            rele1 = "Ligado"
-            status = "Online"
-            return render_template('reles.html',rele1 = rele1,status = status,name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)  
-    except: 
-        status = "Offline" 
-        rele1 = "Offline"
 
-    return render_template('reles.html',rele1 = rele1,status = status)
+    device = Device.query.filter_by(user = current_user.name ).first()
+    name_rele1 = device.name_rele1
+    name_rele2 = device.name_rele2
+    name_rele3 = device.name_rele3
+    name_rele4 = device.name_rele4
+
+
+    if request.method == 'POST':
+        autor = request.form['teste']
+        name = request.form['name_auto']
+        hora = request.form['hora_auto']
+        status = request.form['status1']
+        
+        Auto_rele.automacao(hora,name,status,autor)
+  
+
+    return render_template('reles.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)  
+ 
+
 
 
 
@@ -183,9 +179,11 @@ def configs():
 def sensores():
     
 
-    sensor1_inf = Sensor_Get.sensor_get(Sensor.sensor1)
-    sensor2_inf = Sensor_Get.sensor_get(Sensor.sensor2)
-    sensorhum_inf = Sensor_Get.sensor_get(Sensor.sensorhum)
+    sensor1_inf = Sensor_log.sensor_get(Sensor.sensor1)
+    sensor2_inf = Sensor_log.sensor_get(Sensor.sensor2)
+    sensorhum_inf = Sensor_log.sensor_get(Sensor.sensorhum)
+
+    print(sensor1_inf)
 
   
   
@@ -204,9 +202,9 @@ def sensores():
     
 
     data = Device.query.filter_by(id = current_user.id).first()
-    sensor1 = data.sensortemp01
-    sensor2 = data.sensortemp02
-    sensorhum = data.sensorhum
+    sensor1 = Sensor_state.state(Sensor.sensor1)
+    sensor2 = Sensor_state.state(Sensor.sensor2)
+    sensorhum = Sensor_state.state(Sensor.sensorhum)
     name_sensor_temp1 = data.name_sensor_temp01
     name_sensor_temp2 = data.name_sensor_temp02
     name_sensor_hum = data.name_sensor_hum
@@ -234,12 +232,9 @@ def receber_mqtt_menssager(client, userdata, message):
             
             data_rele = Device.query.filter_by(user = user ).first()
             print(data_rele.rele1)
-
-            
+    
         topic2 = (f'{user}/reles')
-        topic_sensor01 = (f'{user}/sensores/aquario')
-        topic_sensor02 =(f'{user}/sensores/terrario')
-        topic_sensorhum =(f'{user}/sensores/humidade_terrario')
+  
 
         if topic == topic2:
             if payload == "off":
@@ -255,55 +250,5 @@ def receber_mqtt_menssager(client, userdata, message):
                 print("on")
                 db.session.commit()  
 
-        if topic == topic_sensor01:
-            payload = float(payload)
-            
-            data_sensor = Device.query.filter_by(user= user ).first()
-            data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
-            data_sensor.sensortemp01 = payload
-            db.session.commit()
-            if payload >= data_log.temp_aqua_max:
-                data_log.temp_aqua_max = payload
-                data_sensor.temp_sensor01 = payload
-               
-                db.session.commit()
-            if payload <= data_log.temp_aqua_min:
-                data_log.temp_aqua_min = payload
-                data_sensor.temp_sensor01 = payload
-                db.session.commit()
-
-
-        if topic ==  topic_sensor02 :
-            payload = float(payload)
-            data_sensor = Device.query.filter_by(user= user ).first() 
-            data_log = Device_log.query.filter_by(id = data_sensor.id).first() 
-            data_sensor.sensortemp02 = payload
-            db.session.commit()
-            
-            if payload >= data_log.temp_ter_max:
-                data_log.temp_ter_max = payload
-                data_sensor.temp_terrario = payload
-                db.session.commit()
-            if payload <= data_log.temp_ter_min:
-                data_log.temp_ter_min = payload
-                data_sensor.temp_terrario = payload
-                db.session.commit()
-        
-        if topic ==  topic_sensorhum:
-            payload = float(payload)
-            data_sensor = Device.query.filter_by(user= user ).first()
-            data_log = Device_log.query.filter_by(id = data_sensor.id).first()
-            data_sensor.sensorhum = payload
-            db.session.commit()
-            if payload >= data_log.hum_max:
-                data_log.hum_max = payload
-                data_sensor.sensorhum= payload
-                db.session.commit()
-            if payload <= data_log.hum_min:
-                data_log.hum_min = payload
-                data_sensor.sensorhum = payload
-                db.session.commit()
-
-
-
+  
     

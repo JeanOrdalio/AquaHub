@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/registrar.css')}}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/registrar.css')}}"
+    />
+  </head>
+  <body>
     <div class="reg-container">
-        <form class="reg-form" action="#" method="post">
-            <input type="text" name ="name" placeholder ="Insira um nome " required>
-            <input type="email" name ="email" placeholder ="Insira seu email " required>
-            
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="text" name ="device" placeholder ="Insira uma chave " required>
-            <input type="text" name ="cep" placeholder ="CEP " required>
-            <button type="submit".reg-form>Registrar</button>
-          
-        </form>
+      <form class="reg-form" action="#" method="post">
+        <input type="text" name="name" placeholder="Insira um nome " required />
+        <input
+          type="email"
+          name="email"
+          placeholder="Insira seu email "
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <input
+          type="text"
+          name="device"
+          placeholder="Insira uma chave "
+          required
+        />
+        <input type="text" name="cep" placeholder="CEP " required />
+        <button type="submit" .reg-form>Registrar</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
