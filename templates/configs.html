@@ -1,94 +1,131 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/configs.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/configs.css')}}"
+    />
     <script src="static/js/configs.js"></script>
-  
-</head>
-<body>
-  <div class="sidenav" id="sidenav">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.png')}}" />
-    </div>
+  </head>
+  <body>
+    <div class="sidenav" id="sidenav">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png')}}" />
+      </div>
 
-    <ul id="sidenav_ul">
-      <li>
-        <a href="{{url_for('dashboard')}}" id="dash"
-          ><span class="material-symbols-outlined"> dashboard</span>Dashboard</a
-        >
-      </li>
-      <li>
-        <a href="{{url_for('sensores')}}"
-          ><span class="material-symbols-outlined"> thermostat</span
-          >Sensores</a
-        >
-      </li>
-      <li>
-        <a href="{{url_for('reles')}}"
-          ><span class="material-symbols-outlined"> power </span>Tomadas</a
-        >
-      </li>
-      <li>
-        <a href="{{url_for('configs')}}"
-          ><span class="material-symbols-outlined"> settings</span
-          >Configuraçoes</a
-        >
-      </li>
-      <li>
-        <a href="{{url_for('logout')}}" style="position: relative; top: 15em"
-          ><span class="material-symbols-outlined"> logout</span>Sair
-        </a>
-      </li>
-    </ul>
-  </div>
-<main class ="main" id ="main">
-    <div class="configs">
-      
-        <div class ="sensor_container">
+      <ul id="sidenav_ul">
+        <li>
+          <a href="{{url_for('dashboard')}}" id="dash"
+            ><span class="material-symbols-outlined"> dashboard</span
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('sensores')}}"
+            ><span class="material-symbols-outlined"> thermostat</span
+            >Sensores</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('reles')}}"
+            ><span class="material-symbols-outlined"> power </span>Tomadas</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('configs')}}"
+            ><span class="material-symbols-outlined"> settings</span
+            >Configuraçoes</a
+          >
+        </li>
+        <li>
+          <a href="{{url_for('logout')}}" style="position: relative; top: 15em"
+            ><span class="material-symbols-outlined"> logout</span>Sair
+          </a>
+        </li>
+      </ul>
+    </div>
+    <main class="main" id="main">
+      <div class="configs">
+        <div class="sensor_container">
           <label>Name Sensor </label>
-          <form class = "form_sensor" action="/executor_sensor_name" method="post">
+          <form
+            class="form_sensor"
+            action="/executor_sensor_name"
+            method="post"
+          >
             <label for="sensor1">S.Temp 01 </label>
-            <input type="text" name="sensor1" id ="sensor1"placeholder="{{name_sensor_temp1}}">
+            <input
+              type="text"
+              name="sensor1"
+              id="sensor1"
+              placeholder="{{name_sensor_temp1}}"
+            />
             <label for="sensor2">S.Temp 02 </label>
-            <input type="text" name="sensor2" id ="sensor2"placeholder="{{name_sensor_temp2}}">
+            <input
+              type="text"
+              name="sensor2"
+              id="sensor2"
+              placeholder="{{name_sensor_temp2}}"
+            />
             <label for="sensorhum">S.Humidade</label>
-            <input type="text" name="sensorhum"id = "sensorhum"placeholder="{{name_sensor_hum}}">
-            <button type="submit">Salvar </button>
+            <input
+              type="text"
+              name="sensorhum"
+              id="sensorhum"
+              placeholder="{{name_sensor_hum}}"
+            />
+            <button type="submit">Salvar</button>
           </form>
-        
         </div>
-        <div class=" tom_container">
+        <div class="tom_container">
           <label>Name Switch</label>
-          <form class = "form_tom" action="/executor_rele_name" method="post" >
-            <label for ="tomada1">Tomada 1</label>
-            <input type="text" name="rele1" id="tomada1" placeholder="{{name_rele1}}">
-            <label for ="tomada2">Tomada 2</label>
-            <input type="text" name="rele2" id="tomada2"placeholder="{{name_rele2}}">
-            <label for ="tomada3">Tomada 3</label>
-            <input type="text" name="rele3" id="tomada3"placeholder="{{name_rele3}}">
-            <label for ="tomada4">Tomada 4</label>
-            <input type="text" name="rele4" id="tomada4"placeholder="{{name_rele4}}">
-            <label for ="tomada5">Tomada 5</label>
-            <input type="text" name="name" id="tomada5">
-            <label for ="tomada6">Tomada 6</label>
-            <input type="text" name="name" id="tomada6">        
-            <label for ="tomada7">Tomada 7</label>
-            <input type="text" name="name" id="tomada7">        
-            <label for ="tomada8">Tomada 8</label>
-            <input type="text" name="name" id="tomada8">
-            <button type="submit">Salvar </button>
+          <form class="form_tom" action="/executor_rele_name" method="post">
+            <label for="tomada1">Tomada 1</label>
+            <input
+              type="text"
+              name="rele1"
+              id="tomada1"
+              placeholder="{{name_rele1}}"
+            />
+            <label for="tomada2">Tomada 2</label>
+            <input
+              type="text"
+              name="rele2"
+              id="tomada2"
+              placeholder="{{name_rele2}}"
+            />
+            <label for="tomada3">Tomada 3</label>
+            <input
+              type="text"
+              name="rele3"
+              id="tomada3"
+              placeholder="{{name_rele3}}"
+            />
+            <label for="tomada4">Tomada 4</label>
+            <input
+              type="text"
+              name="rele4"
+              id="tomada4"
+              placeholder="{{name_rele4}}"
+            />
+            <label for="tomada5">Tomada 5</label>
+            <input type="text" name="name" id="tomada5" />
+            <label for="tomada6">Tomada 6</label>
+            <input type="text" name="name" id="tomada6" />
+            <label for="tomada7">Tomada 7</label>
+            <input type="text" name="name" id="tomada7" />
+            <label for="tomada8">Tomada 8</label>
+            <input type="text" name="name" id="tomada8" />
+            <button type="submit">Salvar</button>
           </form>
-        
         </div>
       </div>
-    </div>
-
-</main>
-
-</body>
-</html> 
-
-
+    </main>
+  </body>
+</html>

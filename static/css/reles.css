@@ -135,7 +135,9 @@ body {
   overflow: hidden;
   transition: all 1s;
   position: relative;
-  border-style: groove;
+  border-color: white;
+  border-style: ridge;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
 }
 
 .nome_rele {
@@ -182,32 +184,28 @@ body {
   top: 50px;
 }
 
-.data {
-  display: flex;
-}
-.data input :focus{
+.data input :focus {
   border: none;
   border-radius: 7%;
   border-style: groove;
-  
-}
-.data button{
-  margin-top: 30px;
-  height: 25px;
-  width: 120px;
-}
-.hidden{
-  display: none;
 }
 
-.data label{
+.hidden {
+  display: none;
+}
+.data {
+  width: 100%;
+  height: 100%;
+}
+
+.data label {
   color: white;
   font-weight: lighter;
   margin: 0;
 }
 .data form {
+  display: flex;
   row-gap: 10px;
-
   align-items: center;
   flex-direction: column;
   width: 306px;
@@ -219,6 +217,8 @@ body {
 .auto {
   display: flex;
   position: relative;
+  width: 100%;
+  height: 53%;
 }
 
 .hora {
@@ -226,6 +226,48 @@ body {
   border-style: none;
   height: 30px;
   width: 80px;
+}
+
+.btn_reles {
+  border: none;
+  color: white;
+  border-radius: 4%;
+  margin-top: 15px;
+  height: 25px;
+  width: 120px;
+}
+
+.disp {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  gap: 5px;
+}
+.disp form {
+  display: flex;
+  font-weight: lighter;
+  color: white;
+}
+
+.disp select {
+  color: #083263;
+  height: 20px;
+  width: 150px;
+}
+
+.valor {
+  height: 20px;
+  width: 40px;
+  margin: 5px;
+}
+.name_auto {
+  margin: 5px;
+}
+
+.disp p {
+  margin: 2px;
 }
 .config {
   display: flex;

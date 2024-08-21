@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reles.css')}}">
-    <script src="static/js/reles.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,450,0,0"
+    />
 
-
+    <script src="static/js/reles/reles.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/reles.css')}}"
+    />
   </head>
   <body>
-
     <div class="sidenav" id="sidenav">
       <div class="logo">
         <img src="{{ url_for('static', filename='images/logo.png')}}" />
@@ -19,7 +23,8 @@
       <ul id="sidenav_ul">
         <li>
           <a href="{{url_for('dashboard')}}" id="dash"
-            ><span class="material-symbols-outlined"> dashboard</span>Dashboard</a
+            ><span class="material-symbols-outlined"> dashboard</span
+            >Dashboard</a
           >
         </li>
         <li>
@@ -35,6 +40,12 @@
         </li>
         <li>
           <a href="{{url_for('configs')}}"
+            ><span class="material-symbols-outlined"> schedule</span
+            >Agendamentos
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('configs')}}"
             ><span class="material-symbols-outlined"> settings</span
             >Configuraçoes</a
           >
@@ -46,98 +57,250 @@
         </li>
       </ul>
     </div>
-  <main class="main" id="main">
+    <main class="main" id="main">
       <div class="reles_a">
         <div class="rele" id="rele1">
           <h2 class="nome_rele">{{name_rele1}}</h2>
-          <a class="config" id ="config1"><span class="material-symbols-outlined" id ="config1">
-            settings</span></a>
-            <div class="seletor_auto">
-              <button>Tela1</button>
-              <button>Tela2</button>
+          <a class="config" id="config1"
+            ><span class="material-symbols-outlined" id="config1">
+              settings</span
+            ></a
+          >
+          <div class="seletor_auto">
+            <button onclick="btn_tela1()">Tela1</button>
+            <button onclick="btn_tela2()">Tela2</button>
+          </div>
+          <div class="auto">
+            <div class="data" id="data" style="display: none">
+              <form id="data_auto" action="" method="post" class="data">
+                <input
+                  type="text"
+                  value="{{name_rele1}}"
+                  name="teste"
+                  class="hidden"
+                  id="autor1"
+                />
+                <label for="name_auto">Nome da Rotina</label>
+                <input type="text" name="name_auto" id="" />
+                <label for="hora_auto">Hora</label>
+                <input type="time" name="hora_auto" class="hora_auto" />
+                <input
+                  type="text"
+                  value=""
+                  name="status1"
+                  class="hidden"
+                  id="checkbox1"
+                />
+                <label for="ligado_desligado"
+                  >On<input
+                    type="checkbox"
+                    data-id="on"
+                    name="status_on"
+                  /><input
+                    type="checkbox"
+                    data-id="off"
+                    name="status_off"
+                  />Off</label
+                >
+                <button onclick="validade()" id="btn1" class="btn_reles">
+                  Salvar
+                </button>
+              </form>
             </div>
-            <div class="auto">
-              <div class="data">
-                <form  id ="data_auto"action="" method="post" class ="data">
-                  <input type="text" value="{{name_rele1}}" name ="teste" class ="hidden"  id ="autor1">
-                  <label for="name_auto">Nome da Rotina</label>
-                  <input type="text" name="name_auto" id="">
-                  <label for ="hora_auto">Hora</label>
-                  <input type="time" name="hora_auto" class="hora_auto">
-                  <input type="text" value="" name ="status1" class ="hidden"  id =checkbox1>
-                  <label for="ligado_desligado">On<input type="checkbox"  data-id="on" name ="status_on" ><input type="checkbox" data-id ="off" name ="status_off">Off</label>
-                  <button onclick="validade()" id ="btn1">Salvar </button>
-                </form>
-              </div>
-             <div class="disp">
-
-             </div>
+            <div class="disp" id="disp" style="display: none">
+              <form action="" method="post" id="disp_auto" class="disp">
+                <label for="name_auto">Nome da Rotina</label>
+                <input type="text" name="name_auto" id="" class="name_auto" />
+                <p>Selecione um Sensor</p>
+                <select name="sensores" id="sensores">
+                  <option value="sensor.sensor_ds18b20_temperature">
+                    disp1
+                  </option>
+                  <option value="sensor.sensor_dht11_temperature">disp2</option>
+                  <option value="sensor.sensor_dht11_humidity">
+                    sensorhum
+                  </option>
+                </select>
+                <p>
+                  Ligar<input type="number" class="valor" /><input
+                    type="number"
+                    class="valor"
+                  />Desligar
+                </p>
+                <button class="btn_reles">Salvar</button>
+              </form>
             </div>
+          </div>
         </div>
         <div class="rele" id="rele2">
           <h2 class="nome_rele">{{name_rele2}}</h2>
-          <a class="config" id ="config2"><span class="material-symbols-outlined" id ="config2">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button type="submit">Ligar/Desligar</button>
-            </form>
+          <a class="config" id="config2"
+            ><span class="material-symbols-outlined" id="config2">
+              settings</span
+            ></a
+          >
+          <div class="seletor_auto">
+            <button onclick="btn_tela1()">Tela1</button>
+            <button onclick="btn_tela2()">Tela2</button>
+          </div>
+          <div class="auto">
+            <div class="data" id="data" style="display: none">
+              <form id="data_auto" action="" method="post" class="data">
+                <input
+                  type="text"
+                  value="{{name_rele1}}"
+                  name="teste"
+                  class="hidden"
+                  id="autor1"
+                />
+                <label for="name_auto">Nome da Rotina</label>
+                <input type="text" name="name_auto" id="" />
+                <label for="hora_auto">Hora</label>
+                <input type="time" name="hora_auto" class="hora_auto" />
+                <input
+                  type="text"
+                  value=""
+                  name="status1"
+                  class="hidden"
+                  id="checkbox1"
+                />
+                <label for="ligado_desligado"
+                  >On<input
+                    type="checkbox"
+                    data-id="on"
+                    name="status_on"
+                  /><input
+                    type="checkbox"
+                    data-id="off"
+                    name="status_off"
+                  />Off</label
+                >
+                <button onclick="validade()" id="btn1" class="btn_reles">
+                  Salvar
+                </button>
+              </form>
+            </div>
+            <div class="disp" id="disp" style="display: none">
+              <form action="" method="post" id="disp_auto" class="disp">
+                <label for="name_auto">Nome da Rotina</label>
+                <input type="text" name="name_auto" id="" class="name_auto" />
+                <p>Selecione um Sensor</p>
+                <select name="sensores" id="sensores">
+                  <option value="sensor.sensor_ds18b20_temperature">
+                    disp1
+                  </option>
+                  <option value="sensor.sensor_dht11_temperature">disp2</option>
+                  <option value="sensor.sensor_dht11_humidity">
+                    sensorhum
+                  </option>
+                </select>
+                <p>
+                  Ligar<input type="number" class="valor" /><input
+                    type="number"
+                    class="valor"
+                  />Desligar
+                </p>
+                <button class="btn_reles">Salvar</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       <div class="reles_b">
         <div class="rele" id="rele3">
           <h2 class="nome_rele">{{name_rele3}}</h2>
-          <a class="config" id ="config3"><span class="material-symbols-outlined" id ="config3">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
+          <a class="config" id="config3"
+            ><span class="material-symbols-outlined" id="config3">
+              settings</span
+            ></a
+          >
+          <form
+            class="botao"
+            name="rele1"
+            action="/executor_rele1"
+            method="post"
+          >
+            <button type="submit">Ligar/Desligar</button>
           </form>
         </div>
         <div class="rele" id="rele4">
           <h2 class="nome_rele">{{name_rele4}}</h2>
-          <a class="config" id ="config4"><span class="material-symbols-outlined" id ="config4">
-            settings</span></a>
+          <a class="config" id="config4"
+            ><span class="material-symbols-outlined" id="config4">
+              settings</span
+            ></a
+          >
         </div>
       </div>
       <div class="reles_c">
         <div class="rele" id="rele5">
           <h2 class="nome_rele">{{name_rele1}}</h2>
-          <a class="config" id ="config5"><span class="material-symbols-outlined" id ="config5">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
+          <a class="config" id="config5"
+            ><span class="material-symbols-outlined" id="config5">
+              settings</span
+            ></a
+          >
+          <form
+            class="botao"
+            name="rele1"
+            action="/executor_rele1"
+            method="post"
+          >
+            <button type="submit">Ligar/Desligar</button>
           </form>
         </div>
         <div class="rele" id="rele6">
           <h2 class="nome_rele">{{name_rele1}}</h2>
-          <a class="config" id ="config6"><span class="material-symbols-outlined" id ="config6">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
+          <a class="config" id="config6"
+            ><span class="material-symbols-outlined" id="config6">
+              settings</span
+            ></a
+          >
+          <form
+            class="botao"
+            name="rele1"
+            action="/executor_rele1"
+            method="post"
+          >
+            <button type="submit">Ligar/Desligar</button>
           </form>
         </div>
       </div>
       <div class="reles_d">
         <div class="rele" id="rele7">
           <h2 class="nome_rele">{{name_rele1}}</h2>
-          <a class="config" id ="config7"><span class="material-symbols-outlined" id ="config7">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
+          <a class="config" id="config7"
+            ><span class="material-symbols-outlined" id="config7">
+              settings</span
+            ></a
+          >
+          <form
+            class="botao"
+            name="rele1"
+            action="/executor_rele1"
+            method="post"
+          >
+            <button type="submit">Ligar/Desligar</button>
           </form>
         </div>
         <div class="rele" id="rele8">
           <h2 class="nome_rele">{{name_rele1}}</h2>
-          <a class="config" id ="config8"><span class="material-symbols-outlined" id ="config8">
-            settings</span></a>
-          <form class="botao" name="rele1" action="/executor_rele1" method="post">
-            <button  type="submit">Ligar/Desligar</button>
+          <a class="config" id="config8"
+            ><span class="material-symbols-outlined" id="config8">
+              settings</span
+            ></a
+          >
+          <form
+            class="botao"
+            name="rele1"
+            action="/executor_rele1"
+            method="post"
+          >
+            <button type="submit">Ligar/Desligar</button>
           </form>
         </div>
- 
-  
-
-  </main>
+      </div>
+    </main>
+    <script src="static/js/reles/funcoes.js"></script>
   </body>
-</html> 
-
-
+</html>

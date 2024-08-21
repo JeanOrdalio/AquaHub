@@ -1,3 +1,6 @@
+
+
+
 window.onload = function () {
 
 ///Anim reles
@@ -13,6 +16,7 @@ window.onload = function () {
         if (on_off == 0) {
           obj.style.height = "400px";
           botao.style.top = "335px";
+          console.log(botao.style)
 
           on_off = 1;
         } else {
@@ -31,20 +35,6 @@ window.onload = function () {
   evento("rele7", "config7", "config7");
   evento("rele8", "config8", "config8");
 
-///enviando Form
-function validade(){  
-    const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
-    var btn1 = document.getElementById("btn1")
-    var form = document.getElementById("data_auto")
-    var input = document.getElementById("checkbox1")
-    for (let checkbox of checkboxes) {
-        var check = checkbox.dataset.id;
-    input.value = check
-    btn1.addEventListener('click', function(){   
-        form.submit()
-    })
-    }
-}
 
 ///Anim SideNav
 
@@ -62,3 +52,6 @@ main.style.marginLeft = "120px";
 })
 
 };
+
+
+

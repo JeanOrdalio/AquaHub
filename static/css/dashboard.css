@@ -71,7 +71,7 @@ body {
   display: flex;
   column-gap: 55px;
   flex-wrap: wrap;
-  row-gap: 55px;
+  row-gap: 30px;
   transition: all 1s;
 }
 
