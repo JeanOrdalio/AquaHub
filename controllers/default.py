@@ -105,18 +105,29 @@ def dashboard():
         sensor1_name = data_device.name_sensor_temp01
         sensor2_name = data_device.name_sensor_temp02
         sensorhum_name = data_device.name_sensor_hum
-        sensor1 = data_device.sensortemp01
-        sensor2 = data_device.sensortemp02
-        sensorhum = data_device.sensorhum
+        rele1 = data_device.rele1
+        rele2 = data_device.rele2
+        rele3 = data_device.rele3
+        rele4 = data_device.rele4
+        name_rele1 =data_device.name_rele1
+        name_rele2 = data_device.name_rele2
+        name_rele3 = data_device.name_rele3
+        name_rele4 = data_device.name_rele4
+
+
+        sensor1 = Sensor_state.state(Sensor.sensor1)
+        sensor2 = Sensor_state.state(Sensor.sensor2)
+        sensorhum = Sensor_state.state(Sensor.sensorhum)
         
 
         
 
-        return render_template('dashboard.html', sensorhum_json = sensorhum_json, sensor1_json = sensor1_json,sensor1_name = sensor1_name,sensor2_name = sensor2_name,sensorhum_name = sensorhum_name,sensor2_json =sensor2_json,data_sensor2 = data_sensor2,sensor1 = sensor1, sensor2 = sensor2, sensorhum = sensorhum)
+        return render_template('dashboard.html',rele1 = rele1, rele2 = rele2, rele3 = rele3, rele4 = rele4,sensorhum_json = sensorhum_json, sensor1_json = sensor1_json,sensor1_name = sensor1_name,sensor2_name = sensor2_name,sensorhum_name = sensorhum_name,sensor2_json =sensor2_json,data_sensor2 = data_sensor2,name_rele1=name_rele1,name_rele2=name_rele2,name_rele3=name_rele3,name_rele4=name_rele4,sensor1 = sensor1,sensor2 = sensor2, sensorhum = sensorhum)
 
     except:
         status ="Offline"
         return render_template('dashboard.html',status = status)
+    
 
     
 @app.route('/reles',methods= ['GET','POST'])
@@ -128,7 +139,12 @@ def reles():
     name_rele2 = device.name_rele2
     name_rele3 = device.name_rele3
     name_rele4 = device.name_rele4
+    sensor1_name = device.name_sensor_temp01
+    sensor2_name = device.name_sensor_temp02
+    sensorhum_name = device.name_sensor_hum
 
+       
+       
 
     if request.method == 'POST':
         autor = request.form['teste']
@@ -139,7 +155,7 @@ def reles():
         Auto_rele.automacao(hora,name,status,autor)
   
 
-    return render_template('reles.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,)  
+    return render_template('reles.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,sensor1_name=sensor1_name,sensor2_name = sensor2_name,sensorhum_name = sensorhum_name)  
  
 
 
@@ -212,6 +228,12 @@ def sensores():
     return render_template('sensores.html',sensor1 = sensor1,sensor2 = sensor2, sensorhum = sensorhum,sensor1_max = sensor1_max,sensor1_min = sensor1_min, sensor2_max = sensor2_max, sensor2_min = sensor2_min, hum_min = hum_min ,hum_max = hum_max,name_sensor_temp1 = name_sensor_temp1, name_sensor_hum = name_sensor_hum, name_sensor_temp2 = name_sensor_temp2)
 
     
+
+@login_required
+@app.route('/agendamentos',methods= ['GET','POST'])
+def agendamentos():
+
+    return render_template('agendamentos.html')
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):

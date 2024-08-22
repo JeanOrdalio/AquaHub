@@ -11,7 +11,6 @@
       type="text/css"
       href="{{ url_for('static', filename='css/dashboard.css')}}"
     />
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="static/js/dashboard.js"></script>
   </head>
@@ -39,6 +38,12 @@
           >
         </li>
         <li>
+          <a href="{{url_for('agendamentos')}}"
+            ><span class="material-symbols-outlined"> schedule</span
+            >Agendamentos</a
+          >
+        </li>
+        <li>
           <a href="{{url_for('configs')}}"
             ><span class="material-symbols-outlined"> settings</span
             >Configuraçoes</a
@@ -53,28 +58,81 @@
     </div>
     <main class="main" id="main">
       <div class="sensors_name">
-        <h3>{{sensorhum_name}}</h3>
-        <h2>{{sensorhum}}%</h2>
-        <p>05/08/2024 á 06/08/2024</p>
-        <canvas id="Sensorhum" class="charts"></canvas>
+        <div class="sensor_top">
+          <h3>{{sensorhum_name}}</h3>
+          <h2>{{sensorhum}}</h2>
+        </div>
+        <div class="hidden">
+          <canvas id="Sensorhum" class="charts"></canvas>
+        </div>
       </div>
       <div class="sensors_name">
-        <h3>{{sensor1_name}}</h3>
-        <h2>{{sensor1}}º</h2>
-        <p>05/08/2024 á 06/08/2024</p>
-        <canvas id="Sensor1" class="charts"></canvas>
+        <div class="sensor_top">
+          <h3>{{sensor1_name}}</h3>
+          <h2>{{sensor1}}</h2>
+        </div>
+        <div class="hidden">
+          <canvas id="Sensor1" class="charts"></canvas>
+        </div>
       </div>
       <div class="sensors_name">
-        <h3>{{sensor2_name}}</h3>
-        <h2>{{sensor2}}º</h2>
-        <p>05/08/2024 á 06/08/2024</p>
+        <div class="sensor_top">
+          <h3>{{sensor2_name}}</h3>
+          <h2>{{sensor2}}</h2>
+        </div>
+        <div class="hidden">
+          <canvas id="Sensor2" class="charts"></canvas>
+        </div>
+      </div>
+      <div class="reles_container" id ="reles_container">
+        <div class="reles_a">
+          <div class="rele">
+            <h2>{{name_rele1}}</h2><div class="status_rele" id ="rele1"></div>
+          </div>
+          <div class="rele">
 
-        <canvas id="Sensor2" class="charts"></canvas>
+            <h2>{{name_rele2}}</h2><div class="status_rele" id ="rele2"></div>
+          </div>
+          <div class="rele">
+            <h2>{{name_rele3}}</h2><div class="status_rele" id ="rele3"></div>
+          </div>
+          <div class="rele">
+            <h2>{{name_rele4}}</h2><div class="status_rele" id ="rele4"></div>
+          </div>
+        </div>
+        <div class="tela12">
+          <div>
+            teste
+          </div>
+        </div>
+        <div class="reles_b">
+          <div class="rele">
+            <h2>Lamp Uva</h2><div class="status_rele" id ="rele5"></div>
+          </div>
+          <div class="rele">
+
+            <h2>Lamp Uvb</h2><div class="status_rele" id ="rele6"></div>
+          </div>
+          <div class="rele">
+            <h2>Humidificador</h2><div class="status_rele" id ="rele7"></div>
+          </div>
+          <div class="rele">
+            <h2>T_Ventilador</h2><div class="status_rele" id ="rele8"></div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="agendamentos">
+        <p>Tela de Agendamentos</p>
       </div>
       <script>
-        const sensor1_json = JSON.parse("{{ sensor1_json|tojson|safe}}");
-        const sensor2_json = JSON.parse("{{ sensor2_json|tojson|safe}}");
-        const sensorhum_json = JSON.parse("{{ sensorhum_json|tojson|safe}}");
+        const sensor1_json = JSON.parse('{{ sensor1_json|tojson|safe}}');
+        const sensor2_json = JSON.parse('{{ sensor2_json|tojson|safe}}');
+        const sensorhum_json = JSON.parse('{{ sensorhum_json|tojson|safe}}');
+        const rele1 = "{{rele1}}"
+        const rele2 = "{{rele2}}"
+        const rele3 = "{{rele3}}"
+        const rele4 = "{{rele4}}"
       </script>
     </main>
   </body>

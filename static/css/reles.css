@@ -167,13 +167,15 @@ body {
   display: flex;
   height: 40px;
   width: 140px;
-  border-start-start-radius: 10%;
-  border-start-end-radius: 10%;
+  border-radius: 15%;
   border-style: groove;
   border-color: white;
   background-color: transparent;
   color: white;
   transition: 0.3s;
+  justify-content: space-around;
+  align-items: center;
+  border-image: linear-gradient(to right, #a5f3fc86 50%, #2564eb49 75%) 5;
 }
 
 .auto {

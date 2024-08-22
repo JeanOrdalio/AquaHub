@@ -10,9 +10,9 @@ function validade() {
   }
 }
 
-function btn_tela1() {
-  var tela1 = document.getElementById("data");
-  var tela2 = document.getElementById("disp");
+function btn_tela1(auto1,auto2) {
+  var tela1 = document.getElementById(auto1);
+  var tela2 = document.getElementById(auto2);
   if (tela1.style.display == "none") {
     tela1.style.display = "flex";
     tela2.style.display = "none";
@@ -23,9 +23,9 @@ function btn_tela1() {
 
 }
 
-function btn_tela2() {
-    var tela2 = document.getElementById("disp");
-    var tela1 = document.getElementById("data");
+function btn_tela2(auto1,auto2) {
+    var tela2 = document.getElementById(auto1);
+    var tela1 = document.getElementById(auto2);
     if (tela2.style.display = "none"){
       tela2.style.display = "flex";
       tela1.style.display = "none";
@@ -34,3 +34,4 @@ function btn_tela2() {
         tela1.style.display = "none"
         tela2.style.display = "flex"
     }}
+
