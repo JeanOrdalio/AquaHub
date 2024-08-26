@@ -9,7 +9,7 @@
       rel="stylesheet"
       type="text/css"
       href="{{ url_for('static', filename='css/agendamentos.css')}}" />
-    <script src="static/js/agendamentos.js"></script>
+    <script src="static/js/agendamentos/agendamentos.js"></script>
   </head>
   <body>
     <div class="sidenav" id="sidenav">
@@ -48,8 +48,28 @@
       </ul>
     </div>
     <main class="main" id="main">
-      <div class="tabela">
+      <div class="container">
+        <div class="divTable">
+          <table>
+            <thead>
+              <tr>
+                <th>Dispositivo</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Estado</th>
+                
+              </tr>
+            </thead>
+            <tbody id = "tbody">
+            </tbody>
+          </table>
+        </div>
+      
+        <script>
+          const automacoes_json = JSON.parse('{{automacoes_json|tojson|safe}}');
+        </script>
       </div>
     </main>
+    <script src="static/js/agendamentos/script.js"></script>"
   </body>
 </html>

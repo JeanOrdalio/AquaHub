@@ -1,7 +1,7 @@
-function validade() {
+function validade(data_form,checkbox) {
   const checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
-  var form = document.getElementById("data_auto");
-  var input = document.getElementById("checkbox1");
+  var form = document.getElementById(data_form);
+  var input = document.getElementById(checkbox);
   for (let checkbox of checkboxes) {
     var check = checkbox.dataset.id;
     input.value = check;

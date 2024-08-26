@@ -1,9 +1,9 @@
 from __init__ import app
 from flask import render_template,request,redirect,url_for
-from models.models import User,Device,Keys,Device_log
+from models.models import User,Device,Keys,Automation_hora,Automation_sensor
 from  __init__ import db,mqtt_client,cache
 from flask_login import login_user, logout_user,login_required,current_user
-from controllers.controllers import Sensor,Sensor_log,Reles,Auto_rele,Sensor_state
+from controllers.controllers import Sensor,Sensor_log,Reles,Auto_rele,Sensor_state,buscar_auto
 import json
 
 
@@ -57,15 +57,12 @@ def registrar():
         key = request.form['device']
         key_verify = Keys.query.filter_by( key = key ).first()
         acess = str(key_verify.key)
-        rele1 = "1"
-        temp = "0"
+     
         if key == acess:
         
             user = User(name,email,cep,password,key)
-            device = Device(name,rele1,temp)
-            
+         
             db.session.add(user)
-            db.session.add(device)
             db.session.commit() 
             
             return redirect(url_for('login'))
@@ -142,17 +139,21 @@ def reles():
     sensor1_name = device.name_sensor_temp01
     sensor2_name = device.name_sensor_temp02
     sensorhum_name = device.name_sensor_hum
-
-       
-       
+    
 
     if request.method == 'POST':
         autor = request.form['teste']
         name = request.form['name_auto']
         hora = request.form['hora_auto']
         status = request.form['status1']
-        
-        Auto_rele.automacao(hora,name,status,autor)
+
+
+        Auto_rele.automacao_hora(hora,name,status,autor)
+        id = device = Device.query.filter_by(user = current_user.id ).first() 
+        automation = Automation_hora(id,name,hora,status)
+        db.session.add(automation)
+        db.session.commit() 
+
   
 
     return render_template('reles.html',name_rele1 = name_rele1,name_rele2 = name_rele2, name_rele3 = name_rele3, name_rele4 = name_rele4,sensor1_name=sensor1_name,sensor2_name = sensor2_name,sensorhum_name = sensorhum_name)  
@@ -232,8 +233,14 @@ def sensores():
 @login_required
 @app.route('/agendamentos',methods= ['GET','POST'])
 def agendamentos():
+    
+    automacoes = buscar_auto()
+    automacoes_json = automacoes.to_json(orient='records')
+    automacoes_json = json.loads(automacoes_json)
+    
+  
 
-    return render_template('agendamentos.html')
+    return render_template('agendamentos.html',automacoes_json =automacoes_json)
 
 @mqtt_client.on_message()
 def receber_mqtt_menssager(client, userdata, message):

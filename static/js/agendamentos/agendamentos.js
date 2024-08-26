@@ -14,7 +14,5 @@ window.onload = function (){
       sidenav.style.width = "65px";
       main.style.marginLeft = "120px"
     })
-    
-  
-
   }
+

@@ -74,14 +74,109 @@ body {
   flex-wrap: wrap;
   row-gap: 55px;
   transition: all 1s;
+  align-items: center;
+  justify-content: center;
 }
 
-.tabela {
-  margin-right: 40px;
+.container{
+  background-color: transparent;
+  width: 97%;
+  height: 55rem;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: white;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+ 
+  
+
+}
+
+.divTable{
   display: flex;
   width: 100%;
-  height: 55rem;
-  background-color: rgba(255, 255, 255, 0.795);
-  border-style: ridge;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+  
+  
+ 
+ 
+  
 }
+
+table{
+  width: 100%;
+  word-break: break-all;
+
+}
+table td{
+  font-size: 18px;
+  background-color: rgb(0, 171, 238);
+  padding: 0;
+  margin:0;
+  text-align: center;
+  line-height: 0;
+}
+
+table thead{
+  font-size: 18px;
+  
+  width: 100%;
+  height: 15px;
+
+
+}
+
+table thead th{
+  border-style: none;
+  background-color: #57a5da;
+  border-radius: 8px;
+
+}
+
+/* Toggle */
+
+input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 75px;
+	height: 40px;
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 5px;
+	width: 35px;
+	height: 35px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+	background: hsl(192, 94%, 45%);
+}
+
+input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+centering
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+/* Toggle */

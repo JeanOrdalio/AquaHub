@@ -75,23 +75,29 @@ class Device(db.Model):
         self.name_rele4 = name_rele4
 
         
+class Automation_hora(db.Model):
+    __tablename__= 'automation_hora'
+    id = db.Column(db.Integer,primary_key = True)
+    name = db.Column(db.String)
+    hora = db.Column(db.String)
+    on_off = db.Column(db.String)
+    
+    def __init__(self,id,name,hora, on_off):
+        self.id = id 
+        self.name = name
+        self.hora = hora
+        self.on_off = on_off
 
-class Device_log(db.Model):
-    __tablename__= 'device_log'
-    id = db.Column(db.Integer,autoincrement = True, primary_key = True,unique = True)
-    temp_aqua_max = db.Column(db.Integer,unique = True)
-    temp_aqua_min = db.Column(db.Integer)
-    temp_ter_max= db.Column(db.Integer)
-    temp_ter_min = db.Column(db.Integer)
-    hum_max = db.Column(db.Integer)
-    hum_min = db.Column(db.Integer)
-
-    def __init__(self,temp_aqua_max, temp_aqua_min,temp_ter_max,temp_ter_min,hum_max, hum_min ):
-        self.temp_aqua_max = temp_aqua_max
-        self.temp_aqua_min = temp_aqua_min
-        self.temp_ter_max = temp_ter_max
-        self.temp_ter_min = temp_ter_min
-        self.hum_max = hum_max
-        self.hum_min = hum_min
-
+class Automation_sensor(db.Model):
+    __tablename__= 'automation_sensor'
+    id = db.Column(db.Integer,primary_key = True)
+    sensor = db.Column(db.String)
+    sensor_ligar = db.Column(db.String)
+    sensor_desligar = db.Column(db.String)
+    
+    def __init__(self,id ,sensor, sensor_ligar,sensor_desligar):
+        self.id = id 
+        self.sensor = sensor
+        self.sensor_ligar = sensor_ligar
+        self.senssensor_desligar = sensor_desligar
        
